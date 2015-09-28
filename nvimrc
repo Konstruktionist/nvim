@@ -1,7 +1,7 @@
 "
 " IMPORTANT REMINDER
 "
-" All color-values can be found with python script at:
+" All colour-values can be found with python script at:
 " https://github.com/eikenb/terminal-colors
 "
 " Comment as much as possible, because I tend to forget things!
@@ -127,8 +127,8 @@ Plug 'scrooloose/syntastic'
 "   Press <c-f> and <c-b> to cycle between modes.
 "   Press <c-d> to switch to filename only search instead of full path.
 "   Press <c-r> to switch to regexp mode.
-" https://github.com/kien/ctrlp.vim
-Plug 'kien/ctrlp.vim'
+" https://github.com/ctrlpvim/ctrlp.vim
+Plug 'ctrlpvim/ctrlp.vim'
 
 " Ultisnips aims to provide support for textual snippets, similar to TextMate
 " or other Vim plugins. Activate by typing some text and hitting <tab>.
@@ -136,10 +136,10 @@ Plug 'kien/ctrlp.vim'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
-" Better whitespace highlighting for Vim
+" Better white space highlighting for Vim
 "  to toggle whiespace highlighting, call:
 "     :ToggleWhitespace
-"  to clean extra whitespace, call:
+"  to clean extra white space, call:
 "     :StripWhitespace
 Plug 'ntpeters/vim-better-whitespace'
 
@@ -149,18 +149,15 @@ Plug 'keith/swift.vim'
 " A front for ag, A.K.A. the_silver_searcher
 Plug 'rking/ag.vim'
 
-"Plug 'ap/vim-buftabline'
-
-" Fantastic selection for vim
-" Plug 'gorkunov/smartpairs.vim'
-
 " vim plugin to trace syntax highlight
 " activate with <leader>hlt or :HLT
 Plug 'gerw/vim-HiLinkTrace'
 
 " Color schemes
-Plug 'chriskempson/base16-vim'
 Plug 'tomasr/molokai'
+Plug 'mhartington/oceanic-next'
+Plug 'w0ng/vim-hybrid'
+Plug 'romainl/Apprentice'
 
 " status/tabline for vim that's light as air
 " https://github.com/bling/vim-airline
@@ -176,11 +173,8 @@ Plug 'edkolev/tmuxline.vim'
 " https://github.com/tmux-plugins/vim-tmux
 Plug 'tmux-plugins/vim-tmux'
 
-Plug 'Shougo/neocomplete'
-
-" Adjust your vim colors using sliders (gvim & neovim)
-Plug 'zefei/vim-colortuner'
-
+" Vim script for text filtering and alignment
+" https://github.com/godlygeek/tabular
 Plug 'godlygeek/tabular'
 
 Plug 'janson/bufonly.vim'
@@ -198,6 +192,11 @@ Plug 'majutsushi/tagbar'
 " https://github.com/gregsexton/gitv
 Plug 'gregsexton/gitv'
 
+" A code-completion engine for Vim
+"  The original (valloric) version I can't get working
+" https://github.com/oblitum/YouCompleteMe
+Plug 'oblitum/YouCompleteMe', { 'do': './install.py --clang-completer' }
+
 call plug#end()
 
 "
@@ -209,90 +208,92 @@ call plug#end()
 "
 
 if has("autocmd")
-   autocmd bufwritepost .nvimrc source $MYVIMRC
+   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 endif
 
 "
 " Options
+"        If relevant the short command is in the comments, if not there's no
+"        short command.
 "
 
-set updatetime=2000                              "ut:    If this many milliseconds nothing is typed the swap file will be written to disk
-set timeoutlen=3000                              "tm:    time out on mapping after three seconds
-set ttimeoutlen=100                              "ttm:   time out on key codes after a tenth of a second
-set history=100                                  "hi:    keep 50 lines of command line history
-set ruler                                        "ru:    show the cursor position all the time
-set showcmd                                      "sc:    display incomplete commands
-set hidden                                       "hid:   don't care about closing modified buffers
+set timeoutlen=3000                              "tm:    Time out on mapping after three seconds
+set ttimeoutlen=100                              "ttm:   Time out on key codes after a tenth of a second
+set ruler                                        "ru:    Show the cursor position all the time
+set showcmd                                      "sc:    Display incomplete commands
+set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
-set mouse=a                                      "       Enable the use of a mouse
-set nowrap                                       "       don't wrap lines (mapped leader-W to toggle)
-set listchars=tab:▸\ ,eol:¬,trail:·,nbsp:·       "       Use the same symbols as TextMate for tabstops and EOLs
-set backspace=indent,eol,start                   "       Behave like a normal text editor
+set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
+set listchars=tab:▸\ ,eol:¬,trail:-,nbsp:·       "lcs:   Use the same symbols as TextMate for tabstops and EOLs
 set noshowmode                                   "nosmd: Status-line shows the mode we're in
-set showbreak=\ ↪︎\                               "       Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
-set nobackup                                     "       Don't write backup files
-set nowritebackup
-set noswapfile
-set cmdwinheight=20                                " Height of command window
+set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
+set noswapfile                                   "noswf: Do not use a swap file
+set cmdwinheight=20                              "cwh:   Height of command window
 
 "
 " Folding
 "
 
-set foldmethod=syntax                            "fdm:   fold on the indentation by default
-set foldnestmax=10                               "fdn:   deepest fold is 10 levels
-set foldenable                                   "nofen: don't fold by default
+set foldmethod=syntax                            "fdm:   Fold on the indentation by default
+set foldnestmax=10                               "fdn:   Deepest fold is 10 levels
+set foldenable                                   "nofen: Don't fold by default
 set foldlevel=1
-set foldlevelstart=10                            "       open most folds by default
+set foldlevelstart=10                            "fdls:  Open most folds by default
 
 "
 " Search
 "
 
-set incsearch                                    "is:    automatically begins searching as you type
-set hlsearch                                     "hls:   highlights search results; ctrl-n or :noh to unhighlight
-set ignorecase                                   "ic:    searches are case insensitive...
+set ignorecase                                   "ic:    Searches are case insensitive...
 set smartcase                                    "scs:   ... unless they contain at least one capital letter
 set gdefault                                     "gd:    Substitute all matches in a line by default
+
+"
+"  Filetype settings
+"
+
+filetype on                                      "filet: enable filtype detection
+filetype plugin on                               "       recognise filetypes automatically
+filetype indent on                               "       load filetype-specific indent files
 
 "
 " Programming
 "
 
-filetype indent on                               "       load filetype-specific indent files
-syntax on                                        "syn:   syntax highlighting
-set cindent                                      "cin:   enables automatic indenting c-style
-set cinoptions=l1,j1                             "cino:  affects the way cindent reindents lines
-set showmatch                                    "sm:    flashes matching brackets or parenthasis
+syntax on                                        "syn:   Syntax highlighting
+set cindent                                      "cin:   Enables automatic indenting c-style
+set cinoptions=l1,j1                             "cino:  Affects the way cindent reindents lines
+set showmatch                                    "sm:    Flashes matching brackets or parenthasis
 set matchtime=3                                  "mat:   How long to flash brackets
 
 "
 " Tabs
 "
 
-set tabstop=3                                    "ts:    number of spaces that a tab renders as
-set shiftwidth=3                                 "sw:    number of spaces to use for autoindent
-set softtabstop=3                                "sts:   number of spaces that tabs insert
-set smarttab                                     "sta:   helps with backspacing because of expandtab
-set expandtab                                    "et:    uses spaces instead of tab characters
+set tabstop=3                                    "ts:    Number of spaces that a tab renders as
+set shiftwidth=3                                 "sw:    Number of spaces to use for autoindent
+set softtabstop=3                                "sts:   Number of spaces that tabs insert
+set smarttab                                     "sta:   Helps with backspacing because of expandtab
+set expandtab                                    "et:    Uses spaces instead of tab characters
 
 "
 " Hud and status info
 "
 
-set number                                       "nu:    numbers lines
-set relativenumber                               "rnu    let vim calculate the vertical jumps
-set numberwidth=6                                "nuw:   width of number column
-set laststatus=2                                 "ls:    makes the status bar always visible
-set lazyredraw                                   "lz:    will not redraw the screen while running macros (goes faster)
-set linebreak                                    "lbr    break lines at word end
+set number                                       "nu:    Numbers lines
+set relativenumber                               "rnu    Let vim calculate the vertical jumps
+set numberwidth=6                                "nuw:   Width of number column
+set laststatus=2                                 "ls:    Makes the status bar always visible
+set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
+set linebreak                                    "lbr    Break lines at word end
+set spelllang=en_gb                              "       The civilised version
 
 "
 " Menu compilation
 "
 
-set wildmenu                                     "wmnu:  enhanced ed command completion
-set wildmode=list,full                           "wim    list all matches and complete first match
+set wildmenu                                     "wmnu:  Enhanced ed command completion
+set wildmode=list,full                           "wim:   List all matches and complete first match
 
 " Ignore these file-types for wildcard matching
 set wildignore+=.hg,.git,.svn                    " Version control
@@ -314,13 +315,43 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 
 colorscheme Kafka
 set background=dark
-set cursorline                                   " highlight the current line
+
+"
+"  Plain vim statusline
+" see: :help statusline
+"
+
+set statusline=         "reset
+set statusline+=%#todo# "set color
+set statusline+=[       "open bracket char
+set statusline+=%n      "buffer number
+set statusline+=%M      "modifiable/modified flag
+set statusline+=%R      "Readonly flag
+set statusline+=%W      "Preview window flag
+set statusline+=]%*     "close bracket & reset color
+set statusline+=%<      "cut from here if line is too long
+set statusline+=./%f    "relative path of the filename
+set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\| "file encoding
+set statusline+=%{&ff}\| "file format
+set statusline+=%{strlen(&ft)?&ft:'zomg'}] "file type
+set statusline+=%=      "left/right separator
+set statusline+=%{fugitive#statusline()}\  "git branch
+set statusline+=%c,     "cursor column
+set statusline+=%l/%L   "cursor line/total lines
+set statusline+=\ (%P)  "escaped space, percent through file
+
+"
+"  Gvim
+"
+
+set guifont=PragmataPro:h12
 
 "
 " File formats -----------------------------------------------------------------
 "
 autocmd Filetype gitcommit setlocal spell textwidth=72
-autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
+" http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
+autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 
 
 " Make json files human readable
 autocmd BufRead,BufNewFile *.json set filetype=json
@@ -441,7 +472,7 @@ nmap <leader>v :tabedit $MYVIMRC<CR>
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
 
-" Toggle airline whitespace detection
+" Toggle airline white space detection
 nmap <leader>awt :AirlineToggleWhitespace<CR>
 
 " Refreshes all highlight groups and redraws the statusline.
@@ -453,14 +484,15 @@ nmap <leader>n :NERDTreeToggle<CR>
 "Toggle Ag
 nmap <leader>g :Ag!<CR>
 
-" Toggle Gundo
+" Toggle UndoTree
 nnoremap <C-u> :UndotreeToggle<CR>
 
 " Tip from http://www.catonmat.net/blog/sudo-vim/
-" save read-only files
+" How to save read-only files in vim
+" use :sudow
 cnoremap sudow w !sudo tee % >/dev/null
 
-" Testing colorscheme
+" Testing colourscheme
 nmap <leader>hil :so $VIMRUNTIME/syntax/hitest.vim<CR>
 
 " Escape from the terminal window
@@ -468,5 +500,8 @@ tnoremap <Esc> <C-\><C-n>
 
 " Toggle Easybuffer
 nmap <leader>b :EasyBufferToggle<CR>
+
+" Delete in normal mode switches off highlighting till next search...
+nmap <silent> <BS> :nohlsearch<CR>
 
 " Key-mappings End <---
