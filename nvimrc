@@ -310,7 +310,7 @@ set wildignore+=*.orig                           " Merge resolution files
 set wildignore+=*/tmp/*                          " Temporary directories content
 
 "
-" Colors
+" Colours
 "
 
 colorscheme Kafka
@@ -328,16 +328,16 @@ set statusline+=%n      "buffer number
 set statusline+=%M      "modifiable/modified flag
 set statusline+=%R      "Readonly flag
 set statusline+=%W      "Preview window flag
-set statusline+=]%*     "close bracket & reset color
+set statusline+=]%*\      "close bracket & reset color
 set statusline+=%<      "cut from here if line is too long
-set statusline+=./%f    "relative path of the filename
-set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\| "file encoding
-set statusline+=%{&ff}\| "file format
-set statusline+=%{strlen(&ft)?&ft:'zomg'}] "file type
+set statusline+=./%f\     "relative path of the filename
+set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\ \• "file encoding
+set statusline+=\ %{&ff}\ \• "file format
+set statusline+=\ %{strlen(&ft)?&ft:'zomg'}] "file type
 set statusline+=%=      "left/right separator
 set statusline+=%{fugitive#statusline()}\  "git branch
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
+set statusline+=Col:\ %c\      "cursor column
+set statusline+=Line:\ %l/%L   "cursor line/total lines
 set statusline+=\ (%P)  "escaped space, percent through file
 
 "
@@ -351,7 +351,7 @@ set guifont=PragmataPro:h12
 "
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
-autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 
+autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
 
 " Make json files human readable
 autocmd BufRead,BufNewFile *.json set filetype=json
@@ -464,10 +464,52 @@ let g:mapleader = "\<Space>"
 inoremap jk <esc>
 
 " Shortcut to rapidly toggle set list
-nmap <leader>l :set list!<CR>
+nmap <silent> <leader>l :set list!<CR>
 
-" open .vimrc in a new tab
-nmap <leader>v :tabedit $MYVIMRC<CR>
+" open .vimrc in a new buffer for editing
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+
+" source vimrc
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Move the cursor to the window left of the current one
+noremap <silent> ,h :wincmd h<CR>
+
+" Move the cursor to the window below the current one
+noremap <silent> ,j :wincmd j<CR>
+
+" Move the cursor to the window above the current one
+noremap <silent> ,k :wincmd k<CR>
+
+" Move the cursor to the window right of the current one
+noremap <silent> ,l :wincmd l<CR>
+
+" Close the window below this one
+noremap <silent> ,cj :wincmd j<CR>:close<CR>
+
+" Close the window above this one
+noremap <silent> ,ck :wincmd k<CR>:close<CR>
+
+" Close the window to the left of this one
+noremap <silent> ,ch :wincmd h<CR>:close<CR>
+
+" Close the window to the right of this one
+noremap <silent> ,cl :wincmd l<CR>:close<CR>
+
+" Close the current window
+noremap <silent> ,cc :close<CR>
+
+" Move the current window to the right of the main Vim window
+noremap <silent> ,ml <C-W>L
+
+" Move the current window to the top of the main Vim window
+noremap <silent> ,mk <C-W>K
+
+" Move the current window to the left of the main Vim window
+noremap <silent> ,mh <C-W>H
+
+" Move the current window to the bottom of the main Vim window
+noremap <silent> ,mj <C-W>J
 
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
@@ -477,6 +519,9 @@ nmap <leader>awt :AirlineToggleWhitespace<CR>
 
 " Refreshes all highlight groups and redraws the statusline.
 nmap <leader>ar :AirlineRefresh<CR>
+
+" Toggle IndentLine
+nmap <silent> <leader>ind :IndentLinesToggle<CR>
 
 " Toggle NERDTree
 nmap <leader>n :NERDTreeToggle<CR>
