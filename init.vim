@@ -106,10 +106,6 @@ Plug 'airblade/vim-gitgutter'
 " https://github.com/dag/vim-fish
 Plug 'dag/vim-fish'
 
-" indentLine: A vim plugin to display the indention levels with thin vertical lines
-" https://github.com/Yggdroot/indentLine
-Plug 'Yggdroot/indentLine'
-
 " The ultimate undo history visualizer for VIM
 " https://github.com/mbbill/undotree
 Plug 'mbbill/undotree'
@@ -344,7 +340,7 @@ set statusline+=\ (%P)  "escaped space, percent through file
 "  Gvim
 "
 
-set guifont=PragmataPro:h12
+" set guifont=PragmataPro:h12
 
 "
 " File formats -----------------------------------------------------------------
@@ -402,16 +398,6 @@ let g:agprg="ag --column --smart-case"
 "
 
 let NerdTreeIgnore=['.DS_Store[[file]]']
-
-"
-"  Indent Line
-"
-
-let g:indentLine_enabled = 0
-let g:indentLine_color_term = 239
-let g:indentLine_char = ''
-let g:indentLine_color_gui = '#4e4e4e'
-let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
 
 "
 " Ultisnips
