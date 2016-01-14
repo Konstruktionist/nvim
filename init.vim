@@ -10,13 +10,13 @@
 "
 " Vim-Plug ---------------------------------------------------------------------
 "
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !mkdir -p ~/.config/nvim/autoload
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
-endif
 
+" auto-install vim-plug
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif                                                                                                                                 
 call plug#begin('~/.config/nvim/plugged')
 
 " vim-plug short intro
@@ -257,8 +257,6 @@ filetype indent on                               "       load filetype-specific 
 "
 
 syntax on                                        "syn:   Syntax highlighting
-set cindent                                      "cin:   Enables automatic indenting c-style
-set cinoptions=l1,j1                             "cino:  Affects the way cindent reindents lines
 set showmatch                                    "sm:    Flashes matching brackets or parenthasis
 set matchtime=3                                  "mat:   How long to flash brackets
 
