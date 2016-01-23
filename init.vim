@@ -193,6 +193,10 @@ Plug 'gregsexton/gitv'
 " https://github.com/oblitum/YouCompleteMe
 Plug 'oblitum/YouCompleteMe', { 'do': './install.py --clang-completer' }
 
+" open the current Markdown buffer in Marked.app
+" https://github.com/itspriddle/vim-marked
+Plug 'itspriddle/vim-marked'
+
 call plug#end()
 
 "
