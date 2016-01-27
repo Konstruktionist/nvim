@@ -16,7 +16,8 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
-endif                                                                                                                                 
+endif
+
 call plug#begin('~/.config/nvim/plugged')
 
 " vim-plug short intro
@@ -192,6 +193,10 @@ Plug 'gregsexton/gitv'
 "  The original (valloric) version I can't get working
 " https://github.com/oblitum/YouCompleteMe
 Plug 'oblitum/YouCompleteMe', { 'do': './install.py --clang-completer' }
+
+" Markdown for Vim
+" https://github.com/gabrielelana/vim-markdown
+Plug 'gabrielelana/vim-markdown'
 
 " open the current Markdown buffer in Marked.app
 " https://github.com/itspriddle/vim-marked
@@ -460,44 +465,44 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 " source vimrc
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-" Move the cursor to the window left of the current one
-noremap <silent> ,h :wincmd h<CR>
-
-" Move the cursor to the window below the current one
-noremap <silent> ,j :wincmd j<CR>
-
-" Move the cursor to the window above the current one
-noremap <silent> ,k :wincmd k<CR>
-
-" Move the cursor to the window right of the current one
-noremap <silent> ,l :wincmd l<CR>
-
-" Close the window below this one
-noremap <silent> ,cj :wincmd j<CR>:close<CR>
-
-" Close the window above this one
-noremap <silent> ,ck :wincmd k<CR>:close<CR>
-
-" Close the window to the left of this one
-noremap <silent> ,ch :wincmd h<CR>:close<CR>
-
-" Close the window to the right of this one
-noremap <silent> ,cl :wincmd l<CR>:close<CR>
-
-" Close the current window
-noremap <silent> ,cc :close<CR>
-
-" Move the current window to the right of the main Vim window
-noremap <silent> ,ml <C-W>L
-
-" Move the current window to the top of the main Vim window
-noremap <silent> ,mk <C-W>K
-
-" Move the current window to the left of the main Vim window
-noremap <silent> ,mh <C-W>H
-
-" Move the current window to the bottom of the main Vim window
-noremap <silent> ,mj <C-W>J
+"" Move the cursor to the window left of the current one
+"noremap <silent> ,h :wincmd h<CR>
+"
+"" Move the cursor to the window below the current one
+"noremap <silent> ,j :wincmd j<CR>
+"
+"" Move the cursor to the window above the current one
+"noremap <silent> ,k :wincmd k<CR>
+"
+"" Move the cursor to the window right of the current one
+"noremap <silent> ,l :wincmd l<CR>
+"
+"" Close the window below this one
+"noremap <silent> ,cj :wincmd j<CR>:close<CR>
+"
+"" Close the window above this one
+"noremap <silent> ,ck :wincmd k<CR>:close<CR>
+"
+"" Close the window to the left of this one
+"noremap <silent> ,ch :wincmd h<CR>:close<CR>
+"
+"" Close the window to the right of this one
+"noremap <silent> ,cl :wincmd l<CR>:close<CR>
+"
+"" Close the current window
+"noremap <silent> ,cc :close<CR>
+"
+"" Move the current window to the right of the main Vim window
+"noremap <silent> ,ml <C-W>L
+"
+"" Move the current window to the top of the main Vim window
+"noremap <silent> ,mk <C-W>K
+"
+"" Move the current window to the left of the main Vim window
+"noremap <silent> ,mh <C-W>H
+"
+"" Move the current window to the bottom of the main Vim window
+"noremap <silent> ,mj <C-W>J
 
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
