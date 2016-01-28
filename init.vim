@@ -150,12 +150,6 @@ Plug 'rking/ag.vim'
 " activate with <leader>hlt or :HLT
 Plug 'gerw/vim-HiLinkTrace'
 
-" Color schemes
-Plug 'tomasr/molokai'
-Plug 'mhartington/oceanic-next'
-Plug 'w0ng/vim-hybrid'
-Plug 'romainl/Apprentice'
-
 " status/tabline for vim that's light as air
 " https://github.com/bling/vim-airline
 Plug 'bling/vim-airline'
