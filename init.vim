@@ -104,8 +104,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
 
 " This is an addon for Vim providing support for editing fish scripts.
-" https://github.com/dag/vim-fish
-Plug 'dag/vim-fish'
+" https://github.com/onodera-punpun/vim-fish
+"  which is a updated fork from https://github.com/dag/vim-fish
+Plug 'onodera-punpun/vim-fish'
 
 " The ultimate undo history visualizer for VIM
 " https://github.com/mbbill/undotree
