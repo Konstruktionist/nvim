@@ -224,7 +224,7 @@ set showcmd                                      "sc:    Display incomplete comm
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
-set listchars=tab:▸\ ,eol:¬,trail:-,nbsp:·       "lcs:   Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬,extends:◉,trail:※,nbsp:⎵
 set noshowmode                                   "nosmd: Status-line shows the mode we're in
 set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
 set noswapfile                                   "noswf: Do not use a swap file
@@ -318,25 +318,26 @@ set background=dark
 "  Plain vim statusline
 " see: :help statusline
 "
+" We don't use this statusline. It's here as a fallback in case Airline breaks
 
-set statusline=         "reset
-set statusline+=%#todo# "set color
-set statusline+=[       "open bracket char
-set statusline+=%n      "buffer number
-set statusline+=%M      "modifiable/modified flag
-set statusline+=%R      "Readonly flag
-set statusline+=%W      "Preview window flag
-set statusline+=]%*\      "close bracket & reset color
-set statusline+=%<      "cut from here if line is too long
-set statusline+=./%f\     "relative path of the filename
-set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\ \• "file encoding
-set statusline+=\ %{&ff}\ \• "file format
-set statusline+=\ %{strlen(&ft)?&ft:'zomg'}] "file type
-set statusline+=%=      "left/right separator
-set statusline+=%{fugitive#statusline()}\  "git branch
-set statusline+=Col:\ %c\      "cursor column
-set statusline+=Line:\ %l/%L   "cursor line/total lines
-set statusline+=\ (%P)  "escaped space, percent through file
+"set statusline=         "reset
+"set statusline+=%#todo# "set color
+"set statusline+=[       "open bracket char
+"set statusline+=%n      "buffer number
+"set statusline+=%M      "modifiable/modified flag
+"set statusline+=%R      "Readonly flag
+"set statusline+=%W      "Preview window flag
+"set statusline+=]%*\      "close bracket & reset color
+"set statusline+=%<      "cut from here if line is too long
+"set statusline+=./%f\     "relative path of the filename
+"set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\ \• "file encoding
+"set statusline+=\ %{&ff}\ \• "file format
+"set statusline+=\ %{strlen(&ft)?&ft:'zomg'}] "file type
+"set statusline+=%=      "left/right separator
+"set statusline+=%{fugitive#statusline()}\  "git branch
+"set statusline+=Col:\ %c\      "cursor column
+"set statusline+=Line:\ %l/%L   "cursor line/total lines
+"set statusline+=\ (%P)  "escaped space, percent through file
 
 "
 "  Gvim
