@@ -66,25 +66,7 @@ Plug 'tpope/vim-repeat'
 " https://github.com/tpope/vim-fugitive
 Plug 'tpope/vim-fugitive'
 
-" Unimpaired.vim provides shortcuts for various paired activities:
-"
-" ex cmds: ]q is :cnext, [q is :cprevious. ]b is :bnext, [b is :bprev.
-" See the documentation for the full set of 20 mappings and mnemonics.
-" All of them take a count.
-"
-" lines: [<Space> and ]<Space> add newlines before and after the
-" cursor line. [e and ]e exchange the current line with the one above
-" or below it.
-"
-" toggling options: [os, ]os, and cos perform :set spell, :set
-" nospell, and :set invspell, respectively. There's also l (list), n
-" (number), w (wrap), x (cursorline cursorcolumn), and several others,
-" plus mappings to help alleviate the set paste dance. Consult the
-" documentation.
-"
-" misc: [f and ]f to go to the next/previous file in the directory,
-" and [n and ]n to jump between SCM conflict markers.
-"
+" Unimpaired provides shortcuts for various paired activities
 " https://github.com/tpope/vim-unimpaired
 Plug 'tpope/vim-unimpaired'
 
@@ -120,7 +102,7 @@ Plug 'tpope/vim-surround'
 " https://github.com/scrooloose/syntastic
 Plug 'scrooloose/syntastic'
 
-" CtrlP.vim is a fuzzy file, buffer, mru, tag, etc finder.
+" CtrlP is a fuzzy file, buffer, mru, tag, etc finder.
 " Open with CTRL-P, then:
 "   Press <c-f> and <c-b> to cycle between modes.
 "   Press <c-d> to switch to filename only search instead of full path.
@@ -135,7 +117,7 @@ Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Better white space highlighting for Vim
-"  to toggle whiespace highlighting, call:
+"  to toggle whitespace highlighting, call:
 "     :ToggleWhitespace
 "  to clean extra white space, call:
 "     :StripWhitespace
@@ -271,7 +253,6 @@ set matchtime=3                                  "mat:   How long to flash brack
 set tabstop=3                                    "ts:    Number of spaces that a tab renders as
 set shiftwidth=3                                 "sw:    Number of spaces to use for autoindent
 set softtabstop=3                                "sts:   Number of spaces that tabs insert
-set smarttab                                     "sta:   Helps with backspacing because of expandtab
 set expandtab                                    "et:    Uses spaces instead of tab characters
 
 "
@@ -281,7 +262,6 @@ set expandtab                                    "et:    Uses spaces instead of 
 set number                                       "nu:    Numbers lines
 set relativenumber                               "rnu    Let vim calculate the vertical jumps
 set numberwidth=6                                "nuw:   Width of number column
-set laststatus=2                                 "ls:    Makes the status bar always visible
 set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
 set linebreak                                    "lbr    Break lines at word end
 set spelllang=en_gb                              "       The civilised version
@@ -290,7 +270,6 @@ set spelllang=en_gb                              "       The civilised version
 " Menu compilation
 "
 
-set wildmenu                                     "wmnu:  Enhanced ed command completion
 set wildmode=list,full                           "wim:   List all matches and complete first match
 
 " Ignore these file-types for wildcard matching
