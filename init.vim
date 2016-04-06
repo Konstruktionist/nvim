@@ -70,15 +70,13 @@ Plug 'tpope/vim-fugitive'
 " https://github.com/tpope/vim-unimpaired
 Plug 'tpope/vim-unimpaired'
 
-Plug 'tpope/vim-commentary'
-
 " A tree explorer plugin for vim
 " https://github.com/scrooloose/nerdtree
 Plug 'scrooloose/nerdtree'
 
 " Easy Commenting for vim
-" https://github.com/scrooloose/nerdcommenter
-Plug 'scrooloose/nerdcommenter'
+" https://github.com/tomtom/tcomment_vim 
+Plug 'tomtom/tcomment_vim'
 
 " A Vim plugin which shows a git diff in the gutter (sign column) and
  " stages/reverts hunks. Use [c and ]c to navigate changes.
@@ -495,9 +493,6 @@ nmap <leader>awt :AirlineToggleWhitespace<CR>
 
 " Refreshes all highlight groups and redraws the statusline.
 nmap <leader>ar :AirlineRefresh<CR>
-
-" Toggle IndentLine
-nmap <silent> <leader>ind :IndentLinesToggle<CR>
 
 " Toggle NERDTree
 nmap <leader>n :NERDTreeToggle<CR>
