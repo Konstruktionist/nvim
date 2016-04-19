@@ -134,6 +134,7 @@ Plug 'gerw/vim-HiLinkTrace'
 " status/tabline for vim that's light as air
 " https://github.com/bling/vim-airline
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Simple tmux statusline generator for powerline symbols & airline integration
 " https://github.com/edkolev/tmuxline.vim
@@ -167,7 +168,11 @@ Plug 'gregsexton/gitv'
 " A code-completion engine for Vim
 "  The original (valloric) version I can't get working
 " https://github.com/oblitum/YouCompleteMe
-Plug 'oblitum/YouCompleteMe', { 'do': './install.py --clang-completer' }
+"Plug 'oblitum/YouCompleteMe', { 'do': './install.py --clang-completer' }
+
+" A completionframework for neovim
+" https://github.com/Shougo/deoplete.nvim
+Plug 'Shougo/deoplete.nvim'
 
 " Markdown for Vim
 " https://github.com/gabrielelana/vim-markdown
@@ -209,6 +214,7 @@ set noshowmode                                   "nosmd: Status-line shows the m
 set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
 set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
+set clipboard+=unnamedplus
 
 "
 " Folding
@@ -393,6 +399,11 @@ let NerdTreeIgnore=['.DS_Store[[file]]']
 
 let g:UltiSnipsExpandTrigger="<tab>"
 
+"
+" Activate deoplete
+"
+
+let g:deoplete#enable_at_startup = 1
 
 "
 " Commands ---------------------------------------------------------------------
@@ -426,6 +437,21 @@ function! SummarizeTabs()
    endtry
 endfunction
 
+" Make :help appear in a full-screen tab, instead of a window
+" ===========================================================
+"Only apply to .txt files...
+augroup HelpInTabs
+    autocmd!
+    autocmd BufEnter  *.txt   call HelpInNewTab()
+augroup END
+
+"Only apply to help files...
+function! HelpInNewTab ()
+    if &buftype == 'help'
+        "Convert the help window to a tab...
+        execute "normal \<C-W>T"
+    endif
+endfunction
 
 "
 " Key-mappings -----------------------------------------------------------------
