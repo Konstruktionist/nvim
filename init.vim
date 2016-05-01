@@ -75,7 +75,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
 
 " Easy Commenting for vim
-" https://github.com/tomtom/tcomment_vim 
+" https://github.com/tomtom/tcomment_vim
 Plug 'tomtom/tcomment_vim'
 
 " A Vim plugin which shows a git diff in the gutter (sign column) and
@@ -362,7 +362,7 @@ let g:gitgutter_sign_removed='-'
 "  Airline status bar options
 "
 
-let g:airline_theme='powerlineish'
+let g:airline_theme='understated'
 let g:airline_powerline_fonts=1
 let g:airline_inactive_collapse=1
 let g:airline_left_sep=' '
@@ -461,7 +461,7 @@ endfunction
 let g:mapleader = "\<Space>"
 
 " Escape is hard to reach
-inoremap jk <esc>
+inoremap kj <esc>
 
 " Shortcut to rapidly toggle set list
 nmap <silent> <leader>l :set list!<CR>
