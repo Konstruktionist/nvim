@@ -354,7 +354,7 @@ let g:gitgutter_sign_removed='-'
 "  Airline status bar options
 "
 
-let g:airline_theme='understated'
+let g:airline_theme='distinguished'
 let g:airline_powerline_fonts=1
 let g:airline_inactive_collapse=1
 let g:airline#extensions#tabline#enabled = 1
