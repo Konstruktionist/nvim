@@ -75,7 +75,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
 
 " Easy Commenting for vim
-" https://github.com/tomtom/tcomment_vim 
+" https://github.com/tomtom/tcomment_vim
 Plug 'tomtom/tcomment_vim'
 
 " A Vim plugin which shows a git diff in the gutter (sign column) and
@@ -235,14 +235,6 @@ set smartcase                                    "scs:   ... unless they contain
 set gdefault                                     "gd:    Substitute all matches in a line by default
 
 "
-"  Filetype settings
-"
-
-filetype on                                      "filet: enable filtype detection
-filetype plugin on                               "       recognise filetypes automatically
-filetype indent on                               "       load filetype-specific indent files
-
-"
 " Programming
 "
 
@@ -362,13 +354,9 @@ let g:gitgutter_sign_removed='-'
 "  Airline status bar options
 "
 
-let g:airline_theme='powerlineish'
+let g:airline_theme='distinguished'
 let g:airline_powerline_fonts=1
 let g:airline_inactive_collapse=1
-let g:airline_left_sep=' '
-let g:airline_left_alt_sep='|'
-let g:airline_right_sep=' '
-let g:airline_right_alt_sep='|'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = ''
@@ -376,10 +364,6 @@ let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#right_sep = ' '
-let g:airline#extensions#tabline#right_alt_sep = '|'
 
 "
 "  silver searcher
