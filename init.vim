@@ -70,10 +70,6 @@ Plug 'tpope/vim-fugitive'
 " https://github.com/tpope/vim-unimpaired
 Plug 'tpope/vim-unimpaired'
 
-" A tree explorer plugin for vim
-" https://github.com/scrooloose/nerdtree
-Plug 'scrooloose/nerdtree'
-
 " Easy Commenting for vim
 " https://github.com/tomtom/tcomment_vim
 Plug 'tomtom/tcomment_vim'
@@ -151,6 +147,9 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'godlygeek/tabular'
 
 Plug 'janson/bufonly.vim'
+
+" Unobtrusive scratch window
+" https://github.com/mtth/scratch.vim
 Plug 'mtth/scratch.vim'
 
 " vim plugin to quickly switch between buffers
@@ -164,11 +163,6 @@ Plug 'majutsushi/tagbar'
 " gitv is a repository viewer
 " https://github.com/gregsexton/gitv
 Plug 'gregsexton/gitv'
-
-" A code-completion engine for Vim
-"  The original (valloric) version I can't get working
-" https://github.com/oblitum/YouCompleteMe
-"Plug 'oblitum/YouCompleteMe', { 'do': './install.py --clang-completer' }
 
 " A completionframework for neovim
 " https://github.com/Shougo/deoplete.nvim
@@ -209,7 +203,7 @@ set showcmd                                      "sc:    Display incomplete comm
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
-set listchars=tab:▸\ ,eol:¬,extends:◉,trail:※,nbsp:⎵
+set listchars=tab:▸\ ,eol:¬,extends:⇉,trail:※,nbsp:⎵
 set noshowmode                                   "nosmd: Status-line shows the mode we're in
 set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
 set noswapfile                                   "noswf: Do not use a swap file
@@ -295,24 +289,24 @@ set background=dark
 "
 " We don't use this statusline. It's here as a fallback in case Airline breaks
 
-"set statusline=         "reset
-"set statusline+=%#todo# "set color
-"set statusline+=[       "open bracket char
-"set statusline+=%n      "buffer number
-"set statusline+=%M      "modifiable/modified flag
-"set statusline+=%R      "Readonly flag
-"set statusline+=%W      "Preview window flag
-"set statusline+=]%*\      "close bracket & reset color
-"set statusline+=%<      "cut from here if line is too long
-"set statusline+=./%f\     "relative path of the filename
-"set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\ \• "file encoding
-"set statusline+=\ %{&ff}\ \• "file format
-"set statusline+=\ %{strlen(&ft)?&ft:'zomg'}] "file type
-"set statusline+=%=      "left/right separator
-"set statusline+=%{fugitive#statusline()}\  "git branch
-"set statusline+=Col:\ %c\      "cursor column
-"set statusline+=Line:\ %l/%L   "cursor line/total lines
-"set statusline+=\ (%P)  "escaped space, percent through file
+" set statusline=         "reset
+" set statusline+=%#todo# "set color
+" set statusline+=[       "open bracket char
+" set statusline+=%n      "buffer number
+" set statusline+=%M      "modifiable/modified flag
+" set statusline+=%R      "Readonly flag
+" set statusline+=%W      "Preview window flag
+" set statusline+=]%*\      "close bracket & reset color
+" set statusline+=%<      "cut from here if line is too long
+" set statusline+=./%f\     "relative path of the filename
+" set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\ \• "file encoding
+" set statusline+=\ %{&ff}\ \• "file format
+" set statusline+=\ %{strlen(&ft)?&ft:'zomg'}] "file type
+" set statusline+=%=      "left/right separator
+" set statusline+=%{fugitive#statusline()}\  "git branch
+" set statusline+=Col:\ %c\      "cursor column
+" set statusline+=Line:\ %l/%L   "cursor line/total lines
+" set statusline+=\ (%P)  "escaped space, percent through file
 
 "
 "  Gvim
@@ -347,6 +341,7 @@ autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
 
 let g:gitgutter_override_sign_column_highlight=0
 let g:gitgutter_eager=0
+highlight SignColumn ctermbg=NONE guibg=NONE
 let g:gitgutter_sign_column_always=1
 let g:gitgutter_sign_removed='-'
 
@@ -369,13 +364,8 @@ let g:airline#extensions#whitespace#enabled = 0
 "  silver searcher
 "
 
-let g:agprg="ag --column --smart-case"
+let g:ag_prg="ag --column --smart-case"
 
-"
-"  NerdTree
-"
-
-let NerdTreeIgnore=['.DS_Store[[file]]']
 
 "
 " Ultisnips
@@ -388,6 +378,13 @@ let g:UltiSnipsExpandTrigger="<tab>"
 "
 
 let g:deoplete#enable_at_startup = 1
+
+"
+" CtrlP
+"
+let g:ctrlp_user_command = 'find %s -type f'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30'
+
 
 "
 " Commands ---------------------------------------------------------------------
@@ -503,9 +500,6 @@ nmap <leader>awt :AirlineToggleWhitespace<CR>
 
 " Refreshes all highlight groups and redraws the statusline.
 nmap <leader>ar :AirlineRefresh<CR>
-
-" Toggle NERDTree
-nmap <leader>n :NERDTreeToggle<CR>
 
 "Toggle Ag
 nmap <leader>g :Ag!<CR>
