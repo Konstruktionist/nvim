@@ -81,8 +81,9 @@ Plug 'airblade/vim-gitgutter'
 
 " This is an addon for Vim providing support for editing fish scripts.
 " https://github.com/onodera-punpun/vim-fish
-"  which is a updated fork from https://github.com/dag/vim-fish
-Plug 'onodera-punpun/vim-fish'
+"  which is an updated fork from https://github.com/dag/vim-fish
+"  which disapeared so I'm copied it to my github.
+Plug 'Konstruktionist/vim-fish'
 
 " The ultimate undo history visualizer for VIM
 " https://github.com/mbbill/undotree
@@ -132,10 +133,6 @@ Plug 'gerw/vim-HiLinkTrace'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Simple tmux statusline generator for powerline symbols & airline integration
-" https://github.com/edkolev/tmuxline.vim
-Plug 'edkolev/tmuxline.vim'
-
 " plugin for .tmux.conf
 " provides syntax highlighting, :make sources .tmux.conf
 " K jumps to the exact place in 'man tmux' from word under cursor
@@ -155,10 +152,6 @@ Plug 'mtth/scratch.vim'
 " vim plugin to quickly switch between buffers
 " https://github.com/troydm/easybuffer.vim
 Plug 'troydm/easybuffer.vim'
-
-" plugin that displays tags in a window, ordered by scope
-" https://github.com/majutsushi/tagbar
-Plug 'majutsushi/tagbar'
 
 " gitv is a repository viewer
 " https://github.com/gregsexton/gitv
@@ -190,6 +183,12 @@ if has("autocmd")
    autocmd BufWritePost $MYVIMRC source $MYVIMRC
 endif
 
+
+" setup python paths
+let g:python_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
+
+
 "
 " Options
 "        If relevant the short command is in the comments, if not there's no
@@ -203,7 +202,7 @@ set showcmd                                      "sc:    Display incomplete comm
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
-set listchars=tab:▸\ ,eol:¬,extends:⇉,trail:※,nbsp:⎵
+set listchars=tab:▸\ ,eol:¬,extends:»,trail:※,nbsp:⎵
 set noshowmode                                   "nosmd: Status-line shows the mode we're in
 set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
 set noswapfile                                   "noswf: Do not use a swap file
@@ -281,7 +280,7 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 "
 
 colorscheme Kafka
-set background=dark
+set cursorline
 
 "
 "  Plain vim statusline
@@ -341,9 +340,9 @@ autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
 
 let g:gitgutter_override_sign_column_highlight=0
 let g:gitgutter_eager=0
-highlight SignColumn ctermbg=NONE guibg=NONE
 let g:gitgutter_sign_column_always=1
 let g:gitgutter_sign_removed='-'
+let g:gitgutter_sign_modified_removed='±'
 
 "
 "  Airline status bar options
@@ -351,13 +350,9 @@ let g:gitgutter_sign_removed='-'
 
 let g:airline_theme='distinguished'
 let g:airline_powerline_fonts=1
-let g:airline_inactive_collapse=1
+let g:airline_detect_iminsert=1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#branch#empty_message = ''
-let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
 let g:airline#extensions#whitespace#enabled = 0
 
 "
@@ -442,13 +437,13 @@ endfunction
 let g:mapleader = "\<Space>"
 
 " Escape is hard to reach
-inoremap kj <esc>
+inoremap jj <esc>
 
 " Shortcut to rapidly toggle set list
 nmap <silent> <leader>l :set list!<CR>
 
 " open .vimrc in a new buffer for editing
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>v :e $MYVIMRC<CR>
 
 " source vimrc
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
