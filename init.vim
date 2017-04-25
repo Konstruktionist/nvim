@@ -6,7 +6,17 @@
 "
 " Comment as much as possible, because I tend to forget things!
 " --------------------------------------------------------------
+
+"  fish
+"     from: https://github.com/dag/vim-fish
+"        fish is not completely POSIX compatible, therefore let vim use
+"        bash as its shell.
 "
+if &shell =~# 'fish$'
+  set shell=/bin/bash
+endif
+
+
 "
 " Vim-Plug ---------------------------------------------------------------------
 "
@@ -59,115 +69,97 @@ call plug#begin('~/.config/nvim/plugged')
 " ---------
 
 " enable repeating supported plugin maps with "."
-" https://github.com/tpope/vim-repeat
 Plug 'tpope/vim-repeat'
 
 " Fugitive is a highly-capable Git wrapper for Vim.
-" https://github.com/tpope/vim-fugitive
 Plug 'tpope/vim-fugitive'
 
-" Unimpaired provides shortcuts for various paired activities
-" https://github.com/tpope/vim-unimpaired
+" Unimpaired.vim provides shortcuts for various paired activities
 Plug 'tpope/vim-unimpaired'
 
-" Easy Commenting for vim
-" https://github.com/tomtom/tcomment_vim
+" Nice comment plugin
 Plug 'tomtom/tcomment_vim'
 
 " A Vim plugin which shows a git diff in the gutter (sign column) and
- " stages/reverts hunks. Use [c and ]c to navigate changes.
- " https://github.com/airblade/vim-gitgutter
+" stages/reverts hunks. Use [c and ]c to navigate changes.
 Plug 'airblade/vim-gitgutter'
 
-" This is an addon for Vim providing support for editing fish scripts.
-" https://github.com/onodera-punpun/vim-fish
-"  which is an updated fork from https://github.com/dag/vim-fish
-"  which disapeared so I'm copied it to my github.
-Plug 'Konstruktionist/vim-fish'
+" Gundo.vim is Vim plugin to visualize your Vim undo tree.
+"Plug 'sjl/gundo.vim'
 
-" The ultimate undo history visualizer for VIM
-" https://github.com/mbbill/undotree
-Plug 'mbbill/undotree'
+" UndoTree
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 " Surround.vim lets you add/change/remove surrounding chars and tags
-" https://github.com/tpope/vim-surround
 Plug 'tpope/vim-surround'
 
 " Syntax checker for many languages
-" https://github.com/scrooloose/syntastic
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 
-" CtrlP is a fuzzy file, buffer, mru, tag, etc finder.
-" Open with CTRL-P, then:
-"   Press <c-f> and <c-b> to cycle between modes.
-"   Press <c-d> to switch to filename only search instead of full path.
-"   Press <c-r> to switch to regexp mode.
-" https://github.com/ctrlpvim/ctrlp.vim
-Plug 'ctrlpvim/ctrlp.vim'
+" command-t
+Plug 'wincent/command-t', {
+    \   'do': 'cd ruby/command-t && ruby extconf.rb && make'
+    \ }
+
+" terminus
+" vim terminal integration, change cursor shape, bracketed paste mode, etc
+Plug 'wincent/terminus'
+
+" A code-completion engine for Vim
+Plug 'Shougo/neocomplete.vim'
+
+" Speeds up folding
+Plug 'Konfekt/FastFold'
 
 " Ultisnips aims to provide support for textual snippets, similar to TextMate
 " or other Vim plugins. Activate by typing some text and hitting <tab>.
-" https://github.com/SirVer/ultisnips
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
-" Better white space highlighting for Vim
+" Better whitespace highlighting for Vim
 "  to toggle whitespace highlighting, call:
 "     :ToggleWhitespace
-"  to clean extra white space, call:
+"  to clean extra whitespace, call:
 "     :StripWhitespace
 Plug 'ntpeters/vim-better-whitespace'
-
-" Support for Apple's Swift language
-Plug 'keith/swift.vim'
-
-" A front for ag, A.K.A. the_silver_searcher
-Plug 'rking/ag.vim'
 
 " vim plugin to trace syntax highlight
 " activate with <leader>hlt or :HLT
 Plug 'gerw/vim-HiLinkTrace'
 
+" Color schemes
+Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
+
 " status/tabline for vim that's light as air
-" https://github.com/bling/vim-airline
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" plugin for .tmux.conf
-" provides syntax highlighting, :make sources .tmux.conf
-" K jumps to the exact place in 'man tmux' from word under cursor
-" https://github.com/tmux-plugins/vim-tmux
-Plug 'tmux-plugins/vim-tmux'
-
 " Vim script for text filtering and alignment
-" https://github.com/godlygeek/tabular
 Plug 'godlygeek/tabular'
 
-Plug 'janson/bufonly.vim'
-
-" Unobtrusive scratch window
-" https://github.com/mtth/scratch.vim
-Plug 'mtth/scratch.vim'
-
-" vim plugin to quickly switch between buffers
-" https://github.com/troydm/easybuffer.vim
-Plug 'troydm/easybuffer.vim'
+" plugin that displays tags in a window, ordered by scope
+"Plug 'majutsushi/tagbar'
 
 " gitv is a repository viewer
-" https://github.com/gregsexton/gitv
-Plug 'gregsexton/gitv'
+"  Dependancy: A working fugitive installation
+Plug 'gregsexton/gitv', {'on': ['Gitv']}
 
-" A completionframework for neovim
-" https://github.com/Shougo/deoplete.nvim
-Plug 'Shougo/deoplete.nvim'
+" Providing support for editing fish scripts.
+"Plug 'Konstruktionist/vim-fish', { 'branch': 'fishOption' }
+Plug 'Konstruktionist/vim-fish'
+
+" Support for Apple's Swift language
+Plug 'keith/swift.vim'
 
 " Markdown for Vim
-" https://github.com/gabrielelana/vim-markdown
 Plug 'gabrielelana/vim-markdown'
+" Plug 'rhysd/vim-gfm-syntax' " github flavored markdown
 
 " open the current Markdown buffer in Marked.app
-" https://github.com/itspriddle/vim-marked
 Plug 'itspriddle/vim-marked'
+
+" Syntax highlighting for tmux
+Plug 'keith/tmux.vim'
 
 call plug#end()
 
@@ -176,7 +168,7 @@ call plug#end()
 "
 
 "
-" Reload changes to .vimrc
+" Reload changes to init.vim
 "
 
 if has("autocmd")
@@ -203,7 +195,7 @@ set hidden                                       "hid:   Don't care about closin
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
 set listchars=tab:▸\ ,eol:¬,extends:»,trail:※,nbsp:⎵
-set noshowmode                                   "nosmd: Status-line shows the mode we're in
+set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
 set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
 set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
@@ -282,53 +274,36 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 colorscheme Kafka
 set cursorline
 
-"
-"  Plain vim statusline
-" see: :help statusline
-"
-" We don't use this statusline. It's here as a fallback in case Airline breaks
-
-" set statusline=         "reset
-" set statusline+=%#todo# "set color
-" set statusline+=[       "open bracket char
-" set statusline+=%n      "buffer number
-" set statusline+=%M      "modifiable/modified flag
-" set statusline+=%R      "Readonly flag
-" set statusline+=%W      "Preview window flag
-" set statusline+=]%*\      "close bracket & reset color
-" set statusline+=%<      "cut from here if line is too long
-" set statusline+=./%f\     "relative path of the filename
-" set statusline+=[%{strlen(&fenc)?&fenc:'wtf-enc'}\ \• "file encoding
-" set statusline+=\ %{&ff}\ \• "file format
-" set statusline+=\ %{strlen(&ft)?&ft:'zomg'}] "file type
-" set statusline+=%=      "left/right separator
-" set statusline+=%{fugitive#statusline()}\  "git branch
-" set statusline+=Col:\ %c\      "cursor column
-" set statusline+=Line:\ %l/%L   "cursor line/total lines
-" set statusline+=\ (%P)  "escaped space, percent through file
-
-"
-"  Gvim
-"
-
-" set guifont=PragmataPro:h12
 
 "
 " File formats -----------------------------------------------------------------
 "
-autocmd Filetype gitcommit setlocal spell textwidth=72
-" http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
-autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
 
-" Make json files human readable
+" Git commit messages
+"   force the cursor onto a new line after 72 characters
+autocmd Filetype gitcommit setlocal spell textwidth=72
+"   colour the 73rd column
+autocmd FileType gitcommit set colorcolumn=+1
+"   also colour the 51st column (for titles)
+autocmd FileType gitcommit set colorcolumn+=51
+
+
+" Markdown
+"   map *.md files so that syntax is recognized as markdown
+autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
+"   Word wrap without line breaks for markdown
+autocmd Filetype markdown setlocal wrap linebreak list textwidth=0 wrapmargin=0
+
+" JSON
+"   Make json files human readable
 autocmd BufRead,BufNewFile *.json set filetype=json
 autocmd FileType json setlocal equalprg=json_reformat
 
-" Objective-C: map *.h & *.m files so syntax is recognized as objc
+
+" Objective-C
+"   map *.h & *.m files so syntax is recognized as objc
 autocmd BufNewFile,BufRead *.m,*.h set ft=objc
 
-" markdown: map *.md files so that syntax is recognized as markdown
-autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
 
 "
 " Plugin settings --------------------------------------------------------------
@@ -351,15 +326,12 @@ let g:gitgutter_sign_modified_removed='±'
 let g:airline_theme='distinguished'
 let g:airline_powerline_fonts=1
 let g:airline_detect_iminsert=1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 let g:airline#extensions#whitespace#enabled = 0
-
-"
-"  silver searcher
-"
-
-let g:ag_prg="ag --column --smart-case"
 
 
 "
@@ -373,12 +345,6 @@ let g:UltiSnipsExpandTrigger="<tab>"
 "
 
 let g:deoplete#enable_at_startup = 1
-
-"
-" CtrlP
-"
-let g:ctrlp_user_command = 'find %s -type f'
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30'
 
 
 "
@@ -413,110 +379,84 @@ function! SummarizeTabs()
    endtry
 endfunction
 
-" Make :help appear in a full-screen tab, instead of a window
-" ===========================================================
-"Only apply to .txt files...
-augroup HelpInTabs
-    autocmd!
-    autocmd BufEnter  *.txt   call HelpInNewTab()
-augroup END
-
-"Only apply to help files...
-function! HelpInNewTab ()
-    if &buftype == 'help'
-        "Convert the help window to a tab...
-        execute "normal \<C-W>T"
-    endif
-endfunction
 
 "
 " Key-mappings -----------------------------------------------------------------
 "
 
-" Space is easier than backslah
+" Space is easier than backslash
 let g:mapleader = "\<Space>"
 
 " Escape is hard to reach
 inoremap jj <esc>
 
 " Shortcut to rapidly toggle set list
-nmap <silent> <leader>l :set list!<CR>
+nmap <leader>l :set list!<CR>
 
-" open .vimrc in a new buffer for editing
-nmap <silent> <leader>v :e $MYVIMRC<CR>
-
-" source vimrc
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-
-"" Move the cursor to the window left of the current one
-"noremap <silent> ,h :wincmd h<CR>
-"
-"" Move the cursor to the window below the current one
-"noremap <silent> ,j :wincmd j<CR>
-"
-"" Move the cursor to the window above the current one
-"noremap <silent> ,k :wincmd k<CR>
-"
-"" Move the cursor to the window right of the current one
-"noremap <silent> ,l :wincmd l<CR>
-"
-"" Close the window below this one
-"noremap <silent> ,cj :wincmd j<CR>:close<CR>
-"
-"" Close the window above this one
-"noremap <silent> ,ck :wincmd k<CR>:close<CR>
-"
-"" Close the window to the left of this one
-"noremap <silent> ,ch :wincmd h<CR>:close<CR>
-"
-"" Close the window to the right of this one
-"noremap <silent> ,cl :wincmd l<CR>:close<CR>
-"
-"" Close the current window
-"noremap <silent> ,cc :close<CR>
-"
-"" Move the current window to the right of the main Vim window
-"noremap <silent> ,ml <C-W>L
-"
-"" Move the current window to the top of the main Vim window
-"noremap <silent> ,mk <C-W>K
-"
-"" Move the current window to the left of the main Vim window
-"noremap <silent> ,mh <C-W>H
-"
-"" Move the current window to the bottom of the main Vim window
-"noremap <silent> ,mj <C-W>J
+" open .vimrc in a new tab
+nmap <leader>v :tabedit $MYVIMRC<CR>
 
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
 
-" Toggle airline white space detection
-nmap <leader>awt :AirlineToggleWhitespace<CR>
+" Toggle airline whitespace detection
+"nmap <leader>awt :AirlineToggleWhitespace<CR>
 
 " Refreshes all highlight groups and redraws the statusline.
-nmap <leader>ar :AirlineRefresh<CR>
+"nmap <leader>ar :AirlineRefresh<CR>
 
-"Toggle Ag
-nmap <leader>g :Ag!<CR>
+" Always be 'very magic'
+nnoremap / /\v
+vnoremap / /\v
 
-" Toggle UndoTree
-nnoremap <C-u> :UndotreeToggle<CR>
+"
+" NeoComplete key-mappings
+" ------------------------
+"
+inoremap <expr><C-l> neocomplete#complete_common_string()
+" Recommended key-mappings.
+" " <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+    "return pumvisible() ? "\<C-y>" : "\<CR>"
+ endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+
+" Toggle Undotree
+nnoremap <leader>ut :UndotreeToggle<CR>
 
 " Tip from http://www.catonmat.net/blog/sudo-vim/
-" How to save read-only files in vim
-" use :sudow
+" save read-only files
 cnoremap sudow w !sudo tee % >/dev/null
 
-" Testing colourscheme
+" Testing colorscheme
 nmap <leader>hil :so $VIMRUNTIME/syntax/hitest.vim<CR>
 
-" Escape from the terminal window
-tnoremap <Esc> <C-\><C-n>
-
-" Toggle Easybuffer
-nmap <leader>b :EasyBufferToggle<CR>
-
-" Delete in normal mode switches off highlighting till next search...
+" Delete in normal mode switches off highlighting till next search
 nmap <silent> <BS> :nohlsearch<CR>
+
+" Call the :Tabularize command each time you insert a | character
+"  Very usefull for Markdown tables
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 " Key-mappings End <---
