@@ -175,8 +175,8 @@ call plug#end()
 " Reload changes to init.vim
 "
 
-if has("autocmd")
-   autocmd BufWritePost $MYVIMRC source $MYVIMRC
+if has('autocmd')
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
 endif
 
 
@@ -193,13 +193,19 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 
 set timeoutlen=3000                              "tm:    Time out on mapping after three seconds
 set ttimeoutlen=100                              "ttm:   Time out on key codes after a tenth of a second
-set ruler                                        "ru:    Show the cursor position all the time
+"set ruler                                        "ru:    Show the cursor position all the time
 set showcmd                                      "sc:    Display incomplete commands
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
 set listchars=tab:▸\ ,eol:¬,extends:»,trail:※,nbsp:⎵
-set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
+if has ('linebreak')
+  let &showbreak=' ↪︎  '                         "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
+  set breakindent                               " indent wrapped lines to match start
+  if exists('&breakindentopt')
+    set breakindentopt=shift:2                 "briopt: Emphasize broken lines by indenting them
+  endif
+endif
 set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
 set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
@@ -237,9 +243,9 @@ set matchtime=3                                  "mat:   How long to flash brack
 " Tabs
 "
 
-set tabstop=3                                    "ts:    Number of spaces that a tab renders as
-set shiftwidth=3                                 "sw:    Number of spaces to use for autoindent
-set softtabstop=3                                "sts:   Number of spaces that tabs insert
+set tabstop=2                                    "ts:    Number of spaces that a tab renders as
+set shiftwidth=2                                 "sw:    Number of spaces to use for autoindent
+set softtabstop=2                                "sts:   Number of spaces that tabs insert
 set expandtab                                    "et:    Uses spaces instead of tab characters
 
 "
@@ -284,11 +290,11 @@ set cursorline
 "
 
 if has('statusline')
-  set statusline=%7*                         " Switch to User7 highlight group
+  set statusline=%3*                         " Switch to User3 highlight group
   set statusline+=%{statusline#lhs()}
   set statusline+=%*                         " Reset highlight group.
-"  set statusline+=%4*                        " Switch to User4 highlight group (Powerline arrow).
-"  set statusline+=                          " Powerline arrow.
+  set statusline+=%4*                        " Switch to User4 highlight group (Powerline arrow).
+  set statusline+=                          " Powerline arrow.
   set statusline+=%*                         " Reset highlight group.
   set statusline+=\                          " Space.
   set statusline+=%<                         " Truncation point, if not enough width available.
@@ -313,8 +319,9 @@ if has('statusline')
   set statusline+=%=   " Split point for left and right groups.
 
   set statusline+=\               " Space.
-"  set statusline+=               " Powerline arrow.
-  set statusline+=%5*             " Switch to User5 highlight group.
+  set statusline+=%4*             " Switch to User4 highlight group (Powerline arrow).
+  set statusline+=               " Powerline arrow.
+  set statusline+=%3*             " Switch to User3 highlight group.
   set statusline+=%{statusline#rhs()}
   set statusline+=%*              " Reset highlight group.
 
