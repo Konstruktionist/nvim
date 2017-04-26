@@ -282,31 +282,6 @@ set cursorline
 "
 " Statusline
 "
-function! statusline#fileprefix() abort
-  let l:basename=expand('%:h')
-  if l:basename == '' || l:basename == '.'
-    return ''
-  else
-    " Make sure we show $HOME as ~.
-    return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
-  endif
-endfunction
-
-function! statusline#ft() abort
-  if strlen(&ft)
-    return ',' . &ft
-  else
-    return ''
-  endif
-endfunction
-
-function! statusline#fenc() abort
-  if strlen(&fenc) && &fenc !=# 'utf-8'
-    return ',' . &fenc
-  else
-    return ''
-  endif
-endfunction
 
 if has('statusline')
   set statusline=%7*                         " Switch to User7 highlight group
