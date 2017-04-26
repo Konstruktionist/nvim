@@ -409,6 +409,8 @@ nmap <leader>w :set invwrap<CR>:set wrap?<CR>
 nnoremap / /\v
 vnoremap / /\v
 
+" Search for help with command-t plugin
+nmap <silent> <Leader>h <Plug>(CommandTHelp)
 "
 " NeoComplete key-mappings
 " ------------------------
