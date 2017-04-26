@@ -105,6 +105,10 @@ Plug 'wincent/command-t', {
 " vim terminal integration, change cursor shape, bracketed paste mode, etc
 Plug 'wincent/terminus'
 
+" pinnacle
+" Highlight group manipulation
+Plug 'wincent/pinnacle'
+
 " A code-completion engine for Vim
 Plug 'Shougo/neocomplete.vim'
 
@@ -131,8 +135,8 @@ Plug 'gerw/vim-HiLinkTrace'
 Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
 
 " status/tabline for vim that's light as air
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'bling/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 
 " Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
@@ -195,10 +199,12 @@ set hidden                                       "hid:   Don't care about closin
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
 set listchars=tab:▸\ ,eol:¬,extends:»,trail:※,nbsp:⎵
-set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
 set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
 set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
+set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
+set linebreak                                    "lbr    Break lines at word end
+set spelllang=en_us                              "       The common computer language version
 set clipboard+=unnamedplus
 
 "
@@ -240,12 +246,11 @@ set expandtab                                    "et:    Uses spaces instead of 
 " Hud and status info
 "
 
+set laststatus=2                                 "       Always show the statusline
 set number                                       "nu:    Numbers lines
 set relativenumber                               "rnu    Let vim calculate the vertical jumps
 set numberwidth=6                                "nuw:   Width of number column
-set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
-set linebreak                                    "lbr    Break lines at word end
-set spelllang=en_gb                              "       The civilised version
+"set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
 
 "
 " Menu compilation
@@ -274,6 +279,79 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 colorscheme Kafka
 set cursorline
 
+"
+" Statusline
+"
+function! statusline#fileprefix() abort
+  let l:basename=expand('%:h')
+  if l:basename == '' || l:basename == '.'
+    return ''
+  else
+    " Make sure we show $HOME as ~.
+    return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+  endif
+endfunction
+
+function! statusline#ft() abort
+  if strlen(&ft)
+    return ',' . &ft
+  else
+    return ''
+  endif
+endfunction
+
+function! statusline#fenc() abort
+  if strlen(&fenc) && &fenc !=# 'utf-8'
+    return ',' . &fenc
+  else
+    return ''
+  endif
+endfunction
+
+if has('statusline')
+  set statusline=%7*                         " Switch to User7 highlight group
+  set statusline+=%{statusline#lhs()}
+  set statusline+=%*                         " Reset highlight group.
+"  set statusline+=%4*                        " Switch to User4 highlight group (Powerline arrow).
+"  set statusline+=                          " Powerline arrow.
+  set statusline+=%*                         " Reset highlight group.
+  set statusline+=\                          " Space.
+  set statusline+=%<                         " Truncation point, if not enough width available.
+  set statusline+=%{statusline#fileprefix()} " Relative path to file's directory.
+  set statusline+=%2*                        " Switch to User2 highlight group (bold).
+  set statusline+=%t                         " Filename.
+  set statusline+=%*                         " Reset highlight group.
+  set statusline+=\                          " Space.
+  set statusline+=%1*                        " Switch to User1 highlight group (italics).
+
+  " Needs to be all on one line:
+  "   %(                   Start item group.
+  "   [                    Left bracket (literal).
+  "   %R                   Read-only flag: ,RO or nothing.
+  "   %{statusline#ft()}   Filetype (not using %Y because I don't want caps).
+  "   %{statusline#fenc()} File-encoding if not UTF-8.
+  "   ]                    Right bracket (literal).
+  "   %)                   End item group.
+  set statusline+=%([%R%{statusline#ft()}%{statusline#fenc()}]%)
+
+  set statusline+=%*   " Reset highlight group.
+  set statusline+=%=   " Split point for left and right groups.
+
+  set statusline+=\               " Space.
+"  set statusline+=               " Powerline arrow.
+  set statusline+=%5*             " Switch to User5 highlight group.
+  set statusline+=%{statusline#rhs()}
+  set statusline+=%*              " Reset highlight group.
+
+  if has('autocmd')
+    augroup WincentStatusline
+      autocmd!
+      autocmd ColorScheme * call statusline#update_highlight()
+      "autocmd User FerretAsyncStart call statusline#async_start()
+      "autocmd User FerretAsyncFinish call statusline#async_finish()
+    augroup END
+  endif
+endif
 
 "
 " File formats -----------------------------------------------------------------
@@ -323,15 +401,15 @@ let g:gitgutter_sign_modified_removed='±'
 "  Airline status bar options
 "
 
-let g:airline_theme='distinguished'
-let g:airline_powerline_fonts=1
-let g:airline_detect_iminsert=1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_skip_empty_sections = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#whitespace#enabled = 0
+"let g:airline_theme='distinguished'
+"let g:airline_powerline_fonts=1
+"let g:airline_detect_iminsert=1
+"let g:airline_left_sep=''
+"let g:airline_right_sep=''
+"let g:airline_skip_empty_sections = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#hunks#non_zero_only = 1
+"let g:airline#extensions#whitespace#enabled = 0
 
 
 "
