@@ -53,7 +53,7 @@ hi IncSearch   ctermfg=235    ctermbg=208    cterm=NONE        guifg=#262626  gu
 " -----------------
 " - Prompt/Status -
 " -----------------
-hi StatusLine     ctermfg=7      ctermbg=8      cterm=NONE        guifg=NONE     guibg=#909090  gui=NONE
+hi StatusLine     ctermfg=NONE   ctermbg=8      cterm=NONE        guifg=NONE     guibg=#909090  gui=NONE
 hi StatusLineNC   ctermfg=NONE   ctermbg=238    cterm=NONE        guifg=NONE     guibg=#444444  gui=NONE
 hi WildMenu       ctermfg=0      ctermbg=6      cterm=NONE        guifg=#202020  guibg=#73a5c8  gui=NONE
 hi Question       ctermfg=10     ctermbg=NONE   cterm=NONE        guifg=#b6c2aa  guibg=NONE     gui=NONE
@@ -155,15 +155,15 @@ hi SpellRare       ctermfg=81       ctermbg=NONE      cterm=underline        gui
 " --------------------------------
 " User settings for statusbar
 " --------------------------------
-hi User1    ctermfg=NONE  ctermbg=NONE  cterm=italic
-hi User2    ctermfg=NONE  ctermbg=NONE  cterm=bold
-hi User3    ctermfg=10    ctermbg=7
-hi User4    ctermfg=8    ctermbg=NONE
-hi User5    ctermfg=0    ctermbg=7
-hi User6    ctermfg=13    ctermbg=7
-hi User7    ctermfg=15    ctermbg=9
-hi User8    ctermfg=15    ctermbg=7
-hi User9    ctermfg=0     ctermbg=7
+hi User1    ctermfg=NONE  ctermbg=8   cterm=italic
+hi User2    ctermfg=NONE  ctermbg=8   cterm=bold
+hi User3    ctermfg=15    ctermbg=4   cterm=bold
+hi User4    ctermfg=4     ctermbg=8
+hi User5    ctermfg=4     ctermbg=8
+hi User6    ctermfg=5     ctermbg=8
+hi User7    ctermfg=6     ctermbg=8
+hi User8    ctermfg=7     ctermbg=8
+hi User9    ctermfg=9     ctermbg=8
 
 "--------------------------------------------------------------------
 " Specific settings
