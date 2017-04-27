@@ -120,13 +120,6 @@ Plug 'Konfekt/FastFold'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
-" Better whitespace highlighting for Vim
-"  to toggle whitespace highlighting, call:
-"     :ToggleWhitespace
-"  to clean extra whitespace, call:
-"     :StripWhitespace
-Plug 'ntpeters/vim-better-whitespace'
-
 " vim plugin to trace syntax highlight
 " activate with <leader>hlt or :HLT
 Plug 'gerw/vim-HiLinkTrace'
@@ -286,6 +279,19 @@ colorscheme Kafka
 set cursorline
 
 "
+" Gvim/MacVim
+"
+
+if has ('gui_running')
+  set lines=80 columns=130          " Default window size
+  set guifont=Iosevka-Light:h11
+  set guioptions-=T                 " No toolbar
+  set guioptions-=r                 " No scrollbar right
+  set guioptions-=l                 " No scrollbar left
+  set guioptions-=b                 " No scrollbar bottom
+endif
+
+"
 " Statusline
 "
 
@@ -439,6 +445,14 @@ function! SummarizeTabs()
    endtry
 endfunction
 
+" Trim trailing whitespace
+function! TrimWhitespace()
+    let l:save = winsaveview()
+    %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+command! TrimWhitespace call TrimWhitespace()
 
 "
 " Key-mappings -----------------------------------------------------------------
