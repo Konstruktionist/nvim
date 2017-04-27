@@ -155,10 +155,10 @@ hi SpellRare       ctermfg=81       ctermbg=NONE      cterm=underline        gui
 " --------------------------------
 " User settings for statusbar
 " --------------------------------
-hi User1    ctermfg=NONE  ctermbg=8   cterm=italic
-hi User2    ctermfg=NONE  ctermbg=8   cterm=bold
-hi User3    ctermfg=15    ctermbg=4   cterm=bold
-hi User4    ctermfg=4     ctermbg=8
+hi User1    ctermfg=NONE  ctermbg=8   cterm=italic    guifg=NONE      guibg=#909090   gui=italic
+hi User2    ctermfg=NONE  ctermbg=8   cterm=bold      guifg=NONE      guibg=#909090   gui=bold
+hi User3    ctermfg=15    ctermbg=4   cterm=bold      guifg=#fffff0   guibg=#6194bc   gui=bold
+hi User4    ctermfg=4     ctermbg=8   cterm=NONE      guifg=#6194bc   guibg=#909090   gui=NONE
 hi User5    ctermfg=4     ctermbg=8
 hi User6    ctermfg=5     ctermbg=8
 hi User7    ctermfg=6     ctermbg=8
