@@ -54,7 +54,7 @@ hi IncSearch   ctermfg=235    ctermbg=208    cterm=NONE        guifg=#262626  gu
 " - Prompt/Status -
 " -----------------
 hi StatusLine     ctermfg=NONE   ctermbg=8      cterm=NONE        guifg=NONE     guibg=#909090  gui=NONE
-hi StatusLineNC   ctermfg=8      ctermbg=7      cterm=NONE        guifg=NONE     guibg=#444444  gui=NONE
+hi StatusLineNC   ctermfg=8      ctermbg=7      cterm=NONE        guifg=#909090  guibg=#444444  gui=NONE
 hi WildMenu       ctermfg=0      ctermbg=6      cterm=NONE        guifg=#202020  guibg=#73a5c8  gui=NONE
 hi Question       ctermfg=10     ctermbg=NONE   cterm=NONE        guifg=#b6c2aa  guibg=NONE     gui=NONE
 hi Title          ctermfg=3      ctermbg=NONE   cterm=bold        guifg=#fbc692  guibg=NONE     gui=NONE
@@ -152,18 +152,6 @@ hi SpellCap        ctermfg=33       ctermbg=NONE      cterm=underline        gui
 hi SpellLocal      ctermfg=51       ctermbg=NONE      cterm=underline        guifg=NONE     guibg=NONE     gui=undercurl
 hi SpellRare       ctermfg=81       ctermbg=NONE      cterm=underline        guifg=NONE     guibg=NONE     gui=undercurl
 
-" --------------------------------
-" User settings for statusbar
-" --------------------------------
-hi User1    ctermfg=NONE  ctermbg=8   cterm=italic    guifg=NONE      guibg=#909090   gui=italic
-hi User2    ctermfg=NONE  ctermbg=8   cterm=bold      guifg=NONE      guibg=#909090   gui=bold
-hi User3    ctermfg=15    ctermbg=4   cterm=bold      guifg=#fffff0   guibg=#6194bc   gui=bold
-hi User4    ctermfg=4     ctermbg=8   cterm=NONE      guifg=#6194bc   guibg=#909090   gui=NONE
-hi User5    ctermfg=4     ctermbg=8
-hi User6    ctermfg=5     ctermbg=8
-hi User7    ctermfg=6     ctermbg=8
-hi User8    ctermfg=7     ctermbg=8
-hi User9    ctermfg=9     ctermbg=8
 
 "--------------------------------------------------------------------
 " Specific settings

@@ -105,10 +105,6 @@ Plug 'wincent/command-t', {
 " vim terminal integration, change cursor shape, bracketed paste mode, etc
 Plug 'wincent/terminus'
 
-" pinnacle
-" Highlight group manipulation
-Plug 'wincent/pinnacle'
-
 " A code-completion engine for Vim
 Plug 'Shougo/neocomplete.vim'
 
@@ -125,7 +121,7 @@ Plug 'honza/vim-snippets'
 Plug 'gerw/vim-HiLinkTrace'
 
 " Color schemes
-Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
+Plug 'romainl/Apprentice'
 
 " status/tabline for vim that's light as air
 "Plug 'bling/vim-airline'
@@ -276,6 +272,7 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 "
 
 colorscheme Kafka
+"set background=dark
 set cursorline
 
 "
@@ -295,51 +292,53 @@ endif
 " Statusline
 "
 
-if has('statusline')
-  set statusline=%3*                         " Switch to User3 highlight group
-  set statusline+=%{statusline#lhs()}
-  set statusline+=%*                         " Reset highlight group.
-  set statusline+=%4*                        " Switch to User4 highlight group (Powerline arrow).
-  set statusline+=                          " Powerline arrow.
-  set statusline+=%*                         " Reset highlight group.
-  set statusline+=\                          " Space.
-  set statusline+=%<                         " Truncation point, if not enough width available.
-  set statusline+=%{statusline#fileprefix()} " Relative path to file's directory.
-  set statusline+=%2*                        " Switch to User2 highlight group (bold).
-  set statusline+=%t                         " Filename.
-  set statusline+=%*                         " Reset highlight group.
-  set statusline+=\                          " Space.
-  set statusline+=%1*                        " Switch to User1 highlight group (italics).
+ function! GitInfo()
+   let git = fugitive#head()
+   if git != ''
+     return '  '.fugitive#head()
+   else
+     return ''
+ endfunction
 
-  " Needs to be all on one line:
-  "   %(                   Start item group.
-  "   [                    Left bracket (literal).
-  "   %R                   Read-only flag: ,RO or nothing.
-  "   %{statusline#ft()}   Filetype (not using %Y because I don't want caps).
-  "   %{statusline#fenc()} File-encoding if not UTF-8.
-  "   ]                    Right bracket (literal).
-  "   %)                   End item group.
-  set statusline+=%([%R%{statusline#ft()}%{statusline#fenc()}]%)
+ function! Fileprefix() abort
+   let l:basename=expand('%:h')
+   if l:basename == '' || l:basename == '.'
+     return ''
+   else
+     " Make sure we show $HOME as ~.
+     return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+   endif
+ endfunction
 
-  set statusline+=%*   " Reset highlight group.
-  set statusline+=%=   " Split point for left and right groups.
 
-  set statusline+=\               " Space.
-  set statusline+=%4*             " Switch to User4 highlight group (Powerline arrow).
-  set statusline+=               " Powerline arrow.
-  set statusline+=%3*             " Switch to User3 highlight group.
-  set statusline+=%{statusline#rhs()}
-  set statusline+=%*              " Reset highlight group.
+" Statusline (requires Powerline font)
+" ---------- Left-hand side ----------
+set statusline=
+set statusline+=%2*                         "set bold
+set statusline+=\                           "Space
+set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ \ %)%*
+set statusline+=%<                           " Where to truncate line
+set statusline+=%(%{GitInfo()}\ \ %)       "git branch
+set statusline+=%{Fileprefix()}             " Path to the file in the buffer, as typed or relative to current directory
+set statusline+=%2*                         "set bold
+set statusline+=%t                          " filename
+set statusline+=%{&modified?'\ +':''}
+set statusline+=%{&readonly?'\ ':''}
+set statusline+=\ %1*
+" ---------- Right-hand side ----------
+set statusline+=%=                          " Separation point between left and right aligned items.
+set statusline+=\ %{''!=#&filetype?&filetype:'none'}
+set statusline+=%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
+  \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
+set statusline+=\ %*
+set statusline+=\ %2v                       " Virtual column number.
+set statusline+=\ %3p%%                     " Percentage through file in lines as in |CTRL-G|
 
-  if has('autocmd')
-    augroup WincentStatusline
-      autocmd!
-      autocmd ColorScheme * call statusline#update_highlight()
-      "autocmd User FerretAsyncStart call statusline#async_start()
-      "autocmd User FerretAsyncFinish call statusline#async_finish()
-    augroup END
-  endif
-endif
+" Logic for customizing the User1 highlight group is the following
+" - fg = StatusLine fg (if StatusLine colors are reverse)
+" - bg = StatusLineNC bg (if StatusLineNC colors are reverse)
+hi User1          ctermfg=8     ctermbg=7                 guifg=#909090  guibg=#444444
+hi User2          ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE  guibg=#909090   gui=bold
 
 "
 " File formats -----------------------------------------------------------------
