@@ -291,25 +291,43 @@ endif
 "
 " Statusline
 "
+ 
+function! GitStats() abort
+if !get(g:, 'loaded_gitgutter', 0)
+  finish
+endif
+  let s:non_zero_only = get(g:, 'gits#non_zero_only', 0)
+  let s:hunk_symbols = ['+', '~', '-']
+  let string = ''
+  let gits = GitGutterGetHunkSummary()
+  if !empty(gits)
+    for i in [0, 1, 2]
+         if (s:non_zero_only == 0 && winwidth(0) > 100) || gits[i] > 0
+           let string .= printf('%s%s ', s:hunk_symbols[i], gits[i])
+         endif
+    endfor
+     return string
+     else
+     return''
+endfunction
 
- function! GitInfo()
-   let git = fugitive#head()
-   if git != ''
-     return '  '.fugitive#head()
-   else
-     return ''
- endfunction
+function! GitInfo() abort
+ let git = fugitive#head()
+ if git != ''
+   return '  '.fugitive#head()
+ else
+   return ''
+endfunction
 
- function! Fileprefix() abort
-   let l:basename=expand('%:h')
-   if l:basename == '' || l:basename == '.'
-     return ''
-   else
-     " Make sure we show $HOME as ~.
-     return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
-   endif
- endfunction
-
+function! Fileprefix() abort
+ let l:basename=expand('%:h')
+ if l:basename == '' || l:basename == '.'
+   return ''
+ else
+   " Make sure we show $HOME as ~.
+   return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+ endif
+endfunction
 
 " Statusline (requires Powerline font)
 " ---------- Left-hand side ----------
@@ -318,6 +336,7 @@ set statusline+=%2*                         "set bold
 set statusline+=\                           "Space
 set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ \ %)%*
 set statusline+=%<                           " Where to truncate line
+set statusline+=%(%{GitStats()}%)
 set statusline+=%(%{GitInfo()}\ \ %)       "git branch
 set statusline+=%{Fileprefix()}             " Path to the file in the buffer, as typed or relative to current directory
 set statusline+=%2*                         "set bold
