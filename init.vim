@@ -291,7 +291,8 @@ endif
 "
 " Statusline
 "
- 
+autocmd! BufRead,BufNewFile,BufWritePre call GitStats()
+
 function! GitStats() abort
 if !get(g:, 'loaded_gitgutter', 0)
   finish
@@ -302,13 +303,13 @@ endif
   let gits = GitGutterGetHunkSummary()
   if !empty(gits)
     for i in [0, 1, 2]
-         if (s:non_zero_only == 0 && winwidth(0) > 100) || gits[i] > 0
-           let string .= printf('%s%s ', s:hunk_symbols[i], gits[i])
-         endif
+      if (s:non_zero_only == 0 && winwidth(0) > 100) || gits[i] > 0
+        let string .= printf('%s%s ', s:hunk_symbols[i], gits[i])
+      endif
     endfor
-     return string
-     else
-     return''
+    return string
+  else
+    return''
 endfunction
 
 function! GitInfo() abort
