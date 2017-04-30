@@ -116,19 +116,12 @@ Plug 'Konfekt/FastFold'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
-" Better whitespace highlighting for Vim
-"  to toggle whitespace highlighting, call:
-"     :ToggleWhitespace
-"  to clean extra whitespace, call:
-"     :StripWhitespace
-Plug 'ntpeters/vim-better-whitespace'
-
 " vim plugin to trace syntax highlight
 " activate with <leader>hlt or :HLT
 Plug 'gerw/vim-HiLinkTrace'
 
 " Color schemes
-Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
+" Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
 
 " status/tabline for vim that's light as air
 Plug 'bling/vim-airline'
@@ -379,6 +372,14 @@ function! SummarizeTabs()
    endtry
 endfunction
 
+" Trim trailing whitespace
+function! TrimWhitespace()
+    let l:save = winsaveview()
+    %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+command! TrimWhitespace call TrimWhitespace()
 
 "
 " Key-mappings -----------------------------------------------------------------
@@ -398,9 +399,6 @@ nmap <leader>v :tabedit $MYVIMRC<CR>
 
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
-
-" Toggle airline whitespace detection
-"nmap <leader>awt :AirlineToggleWhitespace<CR>
 
 " Refreshes all highlight groups and redraws the statusline.
 "nmap <leader>ar :AirlineRefresh<CR>
