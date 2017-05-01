@@ -24,7 +24,7 @@ endif
 " auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
@@ -98,8 +98,8 @@ Plug 'tpope/vim-surround'
 
 " command-t
 Plug 'wincent/command-t', {
-    \   'do': 'cd ruby/command-t && ruby extconf.rb && make'
-    \ }
+      \   'do': 'cd ruby/command-t && ruby extconf.rb && make'
+      \ }
 
 " terminus
 " vim terminal integration, change cursor shape, bracketed paste mode, etc
@@ -245,6 +245,7 @@ set laststatus=2                                 "       Always show the statusl
 set number                                       "nu:    Numbers lines
 set relativenumber                               "rnu    Let vim calculate the vertical jumps
 set numberwidth=6                                "nuw:   Width of number column
+set cursorline                                   "cul:   highlight the current screenline 
 "set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
 
 "
@@ -272,8 +273,6 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 "
 
 colorscheme Kafka
-"set background=dark
-set cursorline
 
 "
 " Gvim/MacVim
@@ -291,17 +290,21 @@ endif
 "
 " Statusline
 "
-autocmd! BufRead,BufNewFile,BufWritePre call GitStats()
+
+" autocmd! BufRead,BufNewFile,BufWritePre call GitStats()
 
 function! GitStats() abort
-if !get(g:, 'loaded_gitgutter', 0)
-  finish
-endif
-  let s:non_zero_only = get(g:, 'gits#non_zero_only', 0)
+  if !get(g:, 'loaded_gitgutter', 0)
+    finish
+  endif
+  let s:non_zero_only = get(g:, 'non_zero_only', 0)
   let s:hunk_symbols = ['+', '~', '-']
   let string = ''
+  let git = fugitive#head()
   let gits = GitGutterGetHunkSummary()
-  if !empty(gits)
+  " If we're in a repo & there are changes from HEAD show them
+  "   we have to make this conditionally
+  if !empty(git) && !empty(gits)
     for i in [0, 1, 2]
       if (s:non_zero_only == 0 && winwidth(0) > 100) || gits[i] > 0
         let string .= printf('%s%s ', s:hunk_symbols[i], gits[i])
@@ -310,35 +313,40 @@ endif
     return string
   else
     return''
-endfunction
+  endfunction
 
-function! GitInfo() abort
- let git = fugitive#head()
- if git != ''
-   return '  '.fugitive#head()
- else
-   return ''
-endfunction
+  function! GitInfo() abort
+    let git = fugitive#head()
+    if git != ''
+      return '  '.fugitive#head()
+    else
+      return ''
+    endfunction
 
-function! Fileprefix() abort
- let l:basename=expand('%:h')
- if l:basename == '' || l:basename == '.'
-   return ''
- else
-   " Make sure we show $HOME as ~.
-   return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
- endif
-endfunction
+    function! Fileprefix() abort
+      let l:basename=expand('%:h')
+""      let l:helpfile=&filetype
+""      let l:helpfilename=expand('%:t')
+""      if l:helpfile == 'help'
+""        return l:helpfilename
+      if l:basename == '' || l:basename == '.'
+        return ''
+      else
+        " Make sure we show $HOME as ~.
+        return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+      endif
+  endfunction
 
 " Statusline (requires Powerline font)
 " ---------- Left-hand side ----------
 set statusline=
 set statusline+=%2*                         "set bold
 set statusline+=\                           "Space
+" Buffer number, don't show it for help files, followed by Powerline separator
 set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ \ %)%*
 set statusline+=%<                           " Where to truncate line
 set statusline+=%(%{GitStats()}%)
-set statusline+=%(%{GitInfo()}\ \ %)       "git branch
+set statusline+=%(%{GitInfo()}\ \ %)       "git branch, followed by Powerline separator
 set statusline+=%{Fileprefix()}             " Path to the file in the buffer, as typed or relative to current directory
 set statusline+=%2*                         "set bold
 set statusline+=%t                          " filename
@@ -348,8 +356,10 @@ set statusline+=\ %1*
 " ---------- Right-hand side ----------
 set statusline+=%=                          " Separation point between left and right aligned items.
 set statusline+=\ %{''!=#&filetype?&filetype:'none'}
+" If filetype encoding is utf-8 and file format is unix, don't show this as it
+" is the normal state. Only show this info if it is something unusual. 
 set statusline+=%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
-  \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
+      \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
 set statusline+=\ %*
 set statusline+=\ %2v                       " Virtual column number.
 set statusline+=\ %3p%%                     " Percentage through file in lines as in |CTRL-G|
@@ -358,7 +368,7 @@ set statusline+=\ %3p%%                     " Percentage through file in lines a
 " - fg = StatusLine fg (if StatusLine colors are reverse)
 " - bg = StatusLineNC bg (if StatusLineNC colors are reverse)
 hi User1          ctermfg=8     ctermbg=7                 guifg=#909090  guibg=#444444
-hi User2          ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE  guibg=#909090   gui=bold
+hi User2          ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE     guibg=#909090   gui=bold
 
 "
 " File formats -----------------------------------------------------------------
@@ -439,36 +449,36 @@ let g:deoplete#enable_at_startup = 1
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
 function! Stab()
-   let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-   if l:tabstop > 0
-      let &l:sts = l:tabstop
-      let &l:ts = l:tabstop
-      let &l:sw = l:tabstop
-   endif
-   call SummarizeTabs()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
 endfunction
 
 function! SummarizeTabs()
-   try
-      echohl ModeMsg
-      echon 'tabstop='.&l:ts
-      echon ' shiftwidth='.&l:sw
-      echon ' softtabstop='.&l:sts
-      if &l:et
-         echon ' expandtab'
-      else
-         echon ' noexpandtab'
-      endif
-   finally
-      echohl None
-   endtry
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
 endfunction
 
 " Trim trailing whitespace
 function! TrimWhitespace()
-    let l:save = winsaveview()
-    %s/\s\+$//e
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  %s/\s\+$//e
+  call winrestview(l:save)
 endfun
 
 command! TrimWhitespace call TrimWhitespace()
@@ -515,8 +525,8 @@ inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
   " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
- endfunction
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
