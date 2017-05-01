@@ -1,7 +1,7 @@
 " Vim colorscheme
 " An adaptation of the Slate theme included with vim
 " Maintained by Peter van Peursem
-"     Version 2.9 - 28-04-2017
+"     Version 3.0 - 30-04-2017
 "
 " All color-values can be found with python script at:
 " https://github.com/eikenb/terminal-colors
@@ -21,7 +21,7 @@ let g:colors_name="Kafka"
 " Editor settings
 " --------------------------------
 hi Normal         ctermfg=253    ctermbg=NONE   cterm=NONE        guifg=#dadada  guibg=#2a303b  gui=NONE
-hi Cursor         ctermfg=0      ctermbg=15     cterm=NONE        guifg=#000000  guibg=#eeeeee  gui=NONE
+hi Cursor         ctermfg=231    ctermbg=NONE   cterm=NONE        guifg=#ffffff  guibg=NONE     gui=NONE
 hi CursorLine     ctermfg=NONE   ctermbg=237    cterm=NONE        guifg=NONE     guibg=#38404d  gui=NONE
 hi LineNr         ctermfg=8      ctermbg=NONE   cterm=NONE        guifg=#737373  guibg=NONE     gui=NONE
 hi CursorLineNR   ctermfg=11     ctermbg=NONE   cterm=NONE        guifg=#fae3a0  guibg=NONE     gui=NONE
@@ -46,9 +46,9 @@ hi TabLineSel     ctermfg=112    ctermbg=NONE   cterm=NONE        guifg=#5f8700 
 " -------------------------------
 " - File Navigation / Searching -
 " -------------------------------
-hi Directory   ctermfg=12     ctermbg=NONE   cterm=NONE        guifg=#8ca1af  guibg=NONE     gui=NONE
-hi Search      ctermfg=239    ctermbg=11     cterm=NONE        guifg=#303030  guibg=#fae3a0  gui=NONE
-hi IncSearch   ctermfg=235    ctermbg=208    cterm=NONE        guifg=#262626  guibg=#ff8700  gui=NONE
+hi Directory    ctermfg=12     ctermbg=NONE  cterm=NONE        guifg=#8ca1af  guibg=NONE     gui=NONE
+hi Search       ctermfg=232    ctermbg=10    cterm=NONE        guifg=#080808  guibg=#6d7f3f  gui=NONE
+hi IncSearch    ctermfg=231    ctermbg=2     cterm=NONE        guifg=#ffffff  guibg=#75a304  gui=NONE
 
 " -----------------
 " - Prompt/Status -
