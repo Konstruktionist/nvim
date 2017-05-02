@@ -24,7 +24,7 @@ endif
 " auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
@@ -98,8 +98,8 @@ Plug 'tpope/vim-surround'
 
 " command-t
 Plug 'wincent/command-t', {
-    \   'do': 'cd ruby/command-t && ruby extconf.rb && make'
-    \ }
+      \   'do': 'cd ruby/command-t && ruby extconf.rb && make'
+      \ }
 
 " terminus
 " vim terminal integration, change cursor shape, bracketed paste mode, etc
@@ -121,11 +121,7 @@ Plug 'honza/vim-snippets'
 Plug 'gerw/vim-HiLinkTrace'
 
 " Color schemes
-" Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
-
-" status/tabline for vim that's light as air
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'romainl/Apprentice'
 
 " Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
@@ -164,9 +160,9 @@ call plug#end()
 " Reload changes to init.vim
 "
 
-if has("autocmd")
-   autocmd BufWritePost $MYVIMRC source $MYVIMRC
-endif
+"if has('autocmd')
+"  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+"endif
 
 
 " setup python paths
@@ -182,16 +178,24 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 
 set timeoutlen=3000                              "tm:    Time out on mapping after three seconds
 set ttimeoutlen=100                              "ttm:   Time out on key codes after a tenth of a second
-set ruler                                        "ru:    Show the cursor position all the time
+"set ruler                                        "ru:    Show the cursor position all the time
 set showcmd                                      "sc:    Display incomplete commands
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
 set listchars=tab:▸\ ,eol:¬,extends:»,trail:※,nbsp:⎵
-set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
-set showbreak=\ ↪︎\                               "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
+if has ('linebreak')
+  let &showbreak=' ↪︎  '                         "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
+  set breakindent                               " indent wrapped lines to match start
+  if exists('&breakindentopt')
+    set breakindentopt=shift:2                 "briopt: Emphasize broken lines by indenting them
+  endif
+endif
 set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
+set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
+set linebreak                                    "lbr    Break lines at word end
+set spelllang=en_us                              "       The common computer language version
 set clipboard+=unnamedplus
 
 "
@@ -224,21 +228,21 @@ set matchtime=3                                  "mat:   How long to flash brack
 " Tabs
 "
 
-set tabstop=3                                    "ts:    Number of spaces that a tab renders as
-set shiftwidth=3                                 "sw:    Number of spaces to use for autoindent
-set softtabstop=3                                "sts:   Number of spaces that tabs insert
+set tabstop=2                                    "ts:    Number of spaces that a tab renders as
+set shiftwidth=2                                 "sw:    Number of spaces to use for autoindent
+set softtabstop=2                                "sts:   Number of spaces that tabs insert
 set expandtab                                    "et:    Uses spaces instead of tab characters
 
 "
 " Hud and status info
 "
 
+set laststatus=2                                 "       Always show the statusline
 set number                                       "nu:    Numbers lines
 set relativenumber                               "rnu    Let vim calculate the vertical jumps
 set numberwidth=6                                "nuw:   Width of number column
-set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
-set linebreak                                    "lbr    Break lines at word end
-set spelllang=en_gb                              "       The civilised version
+set cursorline                                   "cul:   highlight the current screenline
+"set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
 
 "
 " Menu compilation
@@ -265,37 +269,133 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 "
 
 colorscheme Kafka
-set cursorline
 
+"
+" Gvim/MacVim
+"
+
+if has ('gui_running')
+  set lines=80 columns=130          " Default window size
+  set guifont=Iosevka-Light:h11
+  set guioptions-=T                 " No toolbar
+  set guioptions-=r                 " No scrollbar right
+  set guioptions-=l                 " No scrollbar left
+  set guioptions-=b                 " No scrollbar bottom
+endif
+
+"
+" Statusline
+"
+
+function! GitStats() abort
+  let b:hunk_symbols = ['+', '~', '-']
+  let string = ''
+  let git = fugitive#head()
+  let gits = GitGutterGetHunkSummary()
+
+  " Are we in a repo?
+  if git == ''    " NO, therefore show empty string aka collapse
+    return string
+  elseif git != '' && gits == [0, 0, 0]  " A repo with no changes, show empty string aka collapse
+    return string
+  else    " In a repo with changes from HEAD
+    for i in [0, 1, 2]
+      let string .= printf('%s%s ', b:hunk_symbols[i], gits[i])   " Fill string with changes
+    endfor
+    return string
+  endif
+endfunction
+
+function! GitInfo() abort
+  let git = fugitive#head()
+  if git != ''
+    return '  '.fugitive#head()
+  else
+    return ''
+endfunction
+
+function! Fileprefix() abort
+  let l:basename=expand('%:h')
+  if l:basename == '' || l:basename == '.'
+    return ''
+  else
+    " Make sure we show $HOME as ~.
+    return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+  endif
+endfunction
+
+" Statusline (requires Powerline font)
+" ---------- Left-hand side ----------
+set statusline=
+set statusline+=%2*                         " set bold
+set statusline+=\                           " Space
+" Buffer number, don't show it for help files, followed by Powerline separator
+set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ \ %)%*
+set statusline+=%<                          " Where to truncate line
+set statusline+=%(%{GitStats()}%)           " How many changes
+set statusline+=%(%{GitInfo()}\ \ %)       " git branch, followed by Powerline separator
+set statusline+=%{Fileprefix()}             " Path to the file in the buffer, as typed or relative to current directory
+set statusline+=%2*                         " set bold
+set statusline+=%t                          " filename
+set statusline+=%{&modified?'\ +':''}
+set statusline+=%{&readonly?'\ ':''}
+set statusline+=\ %1*
+" ---------- Right-hand side ----------
+set statusline+=%=                          " Separation point between left and right aligned items.
+set statusline+=\ %{''!=#&filetype?&filetype:'none'}
+" If filetype encoding is utf-8 and file format is unix, don't show this as it
+" is the normal state. Only show this info if it is something unusual.
+set statusline+=%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
+      \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
+set statusline+=\ %*
+set statusline+=\ %2v                       " Virtual column number.
+set statusline+=\ %3p%%                     " Percentage through file in lines as in |CTRL-G|
+
+" Logic for customizing the User1 highlight group is the following
+" - fg = StatusLine fg (if StatusLine colors are reverse)
+" - bg = StatusLineNC bg (if StatusLineNC colors are reverse)
+hi User1  ctermfg=8     ctermbg=7                 guifg=#909090  guibg=#444444
+hi User2  ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE     guibg=#909090   gui=bold
 
 "
 " File formats -----------------------------------------------------------------
 "
 
-" Git commit messages
-"   force the cursor onto a new line after 72 characters
-autocmd Filetype gitcommit setlocal spell textwidth=72
-"   colour the 73rd column
-autocmd FileType gitcommit set colorcolumn=+1
-"   also colour the 51st column (for titles)
-autocmd FileType gitcommit set colorcolumn+=51
+augroup FileFormats
+  autocmd!
+
+  " Git commit messages
+  "   force the cursor onto a new line after 72 characters
+  autocmd Filetype gitcommit setlocal spell textwidth=72
+  "   colour the 73rd column
+  autocmd FileType gitcommit set colorcolumn=+1
+  "   also colour the 51st column (for titles)
+  autocmd FileType gitcommit set colorcolumn+=51
 
 
-" Markdown
-"   map *.md files so that syntax is recognized as markdown
-autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
-"   Word wrap without line breaks for markdown
-autocmd Filetype markdown setlocal wrap linebreak list textwidth=0 wrapmargin=0
+  " Markdown
+  "   map *.md files so that syntax is recognized as markdown
+  autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
+  "   Word wrap without line breaks for markdown
+  autocmd Filetype markdown setlocal wrap linebreak list textwidth=0 wrapmargin=0
 
-" JSON
-"   Make json files human readable
-autocmd BufRead,BufNewFile *.json set filetype=json
-autocmd FileType json setlocal equalprg=json_reformat
+  " JSON
+  "   Make json files human readable
+  autocmd BufRead,BufNewFile *.json set filetype=json
+  autocmd FileType json setlocal equalprg=json_reformat
 
 
-" Objective-C
-"   map *.h & *.m files so syntax is recognized as objc
-autocmd BufNewFile,BufRead *.m,*.h set ft=objc
+  " Objective-C
+  "   map *.h & *.m files so syntax is recognized as objc
+  autocmd BufNewFile,BufRead *.m,*.h set ft=objc
+
+  " Update GitStats
+  autocmd User GitGutter call GitStats()
+
+  " Reload changes to init.vim
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+augroup END
 
 
 "
@@ -311,21 +411,6 @@ let g:gitgutter_eager=0
 let g:gitgutter_sign_column_always=1
 let g:gitgutter_sign_removed='-'
 let g:gitgutter_sign_modified_removed='±'
-
-"
-"  Airline status bar options
-"
-
-let g:airline_theme='distinguished'
-let g:airline_powerline_fonts=1
-let g:airline_detect_iminsert=1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_skip_empty_sections = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#whitespace#enabled = 0
-
 
 "
 " Ultisnips
@@ -347,36 +432,36 @@ let g:deoplete#enable_at_startup = 1
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
 function! Stab()
-   let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-   if l:tabstop > 0
-      let &l:sts = l:tabstop
-      let &l:ts = l:tabstop
-      let &l:sw = l:tabstop
-   endif
-   call SummarizeTabs()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
 endfunction
 
 function! SummarizeTabs()
-   try
-      echohl ModeMsg
-      echon 'tabstop='.&l:ts
-      echon ' shiftwidth='.&l:sw
-      echon ' softtabstop='.&l:sts
-      if &l:et
-         echon ' expandtab'
-      else
-         echon ' noexpandtab'
-      endif
-   finally
-      echohl None
-   endtry
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
 endfunction
 
 " Trim trailing whitespace
 function! TrimWhitespace()
-    let l:save = winsaveview()
-    %s/\s\+$//e
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  %s/\s\+$//e
+  call winrestview(l:save)
 endfun
 
 command! TrimWhitespace call TrimWhitespace()
@@ -400,9 +485,6 @@ nmap <leader>v :tabedit $MYVIMRC<CR>
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
 
-" Refreshes all highlight groups and redraws the statusline.
-"nmap <leader>ar :AirlineRefresh<CR>
-
 " Always be 'very magic'
 nnoremap / /\v
 vnoremap / /\v
@@ -420,8 +502,8 @@ inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
   " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
- endfunction
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
