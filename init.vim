@@ -313,29 +313,29 @@ function! GitStats() abort
     return string
   else
     return''
-  endfunction
+endfunction
 
-  function! GitInfo() abort
+function! GitInfo() abort
     let git = fugitive#head()
     if git != ''
       return '  '.fugitive#head()
     else
       return ''
-    endfunction
+endfunction
 
-    function! Fileprefix() abort
+function! Fileprefix() abort
       let l:basename=expand('%:h')
-""      let l:helpfile=&filetype
-""      let l:helpfilename=expand('%:t')
-""      if l:helpfile == 'help'
-""        return l:helpfilename
+      ""      let l:helpfile=&filetype
+      ""      let l:helpfilename=expand('%:t')
+      ""      if l:helpfile == 'help'
+      ""        return l:helpfilename
       if l:basename == '' || l:basename == '.'
         return ''
       else
         " Make sure we show $HOME as ~.
         return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
       endif
-  endfunction
+endfunction
 
 " Statusline (requires Powerline font)
 " ---------- Left-hand side ----------
@@ -374,30 +374,35 @@ hi User2          ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE     guibg=#
 " File formats -----------------------------------------------------------------
 "
 
-" Git commit messages
-"   force the cursor onto a new line after 72 characters
-autocmd Filetype gitcommit setlocal spell textwidth=72
-"   colour the 73rd column
-autocmd FileType gitcommit set colorcolumn=+1
-"   also colour the 51st column (for titles)
-autocmd FileType gitcommit set colorcolumn+=51
+augroup FileFormats
+  autocmd!
+
+  " Git commit messages
+  "   force the cursor onto a new line after 72 characters
+  autocmd Filetype gitcommit setlocal spell textwidth=72
+  "   colour the 73rd column
+  autocmd FileType gitcommit set colorcolumn=+1
+  "   also colour the 51st column (for titles)
+  autocmd FileType gitcommit set colorcolumn+=51
 
 
-" Markdown
-"   map *.md files so that syntax is recognized as markdown
-autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
-"   Word wrap without line breaks for markdown
-autocmd Filetype markdown setlocal wrap linebreak list textwidth=0 wrapmargin=0
+  " Markdown
+  "   map *.md files so that syntax is recognized as markdown
+  autocmd Bufread,BufNewFile,BufReadPost *.md set filetype=markdown
+  "   Word wrap without line breaks for markdown
+  autocmd Filetype markdown setlocal wrap linebreak list textwidth=0 wrapmargin=0
 
-" JSON
-"   Make json files human readable
-autocmd BufRead,BufNewFile *.json set filetype=json
-autocmd FileType json setlocal equalprg=json_reformat
+  " JSON
+  "   Make json files human readable
+  autocmd BufRead,BufNewFile *.json set filetype=json
+  autocmd FileType json setlocal equalprg=json_reformat
 
 
-" Objective-C
-"   map *.h & *.m files so syntax is recognized as objc
-autocmd BufNewFile,BufRead *.m,*.h set ft=objc
+  " Objective-C
+  "   map *.h & *.m files so syntax is recognized as objc
+  autocmd BufNewFile,BufRead *.m,*.h set ft=objc
+
+augroup END
 
 
 "
