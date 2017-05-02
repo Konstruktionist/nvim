@@ -123,10 +123,6 @@ Plug 'gerw/vim-HiLinkTrace'
 " Color schemes
 Plug 'romainl/Apprentice'
 
-" status/tabline for vim that's light as air
-"Plug 'bling/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-
 " Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
 
@@ -164,9 +160,9 @@ call plug#end()
 " Reload changes to init.vim
 "
 
-if has('autocmd')
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
-endif
+"if has('autocmd')
+"  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+"endif
 
 
 " setup python paths
@@ -396,6 +392,9 @@ augroup FileFormats
   " Update GitStats
   autocmd User GitGutter call GitStats()
 
+  " Reload changes to init.vim
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
 augroup END
 
 
@@ -412,21 +411,6 @@ let g:gitgutter_eager=0
 let g:gitgutter_sign_column_always=1
 let g:gitgutter_sign_removed='-'
 let g:gitgutter_sign_modified_removed='±'
-
-"
-"  Airline status bar options
-"
-
-"let g:airline_theme='distinguished'
-"let g:airline_powerline_fonts=1
-"let g:airline_detect_iminsert=1
-"let g:airline_left_sep=''
-"let g:airline_right_sep=''
-"let g:airline_skip_empty_sections = 1
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#hunks#non_zero_only = 1
-"let g:airline#extensions#whitespace#enabled = 0
-
 
 "
 " Ultisnips
@@ -500,12 +484,6 @@ nmap <leader>v :tabedit $MYVIMRC<CR>
 
 " Toggle wrap
 nmap <leader>w :set invwrap<CR>:set wrap?<CR>
-
-" Toggle airline whitespace detection
-"nmap <leader>awt :AirlineToggleWhitespace<CR>
-
-" Refreshes all highlight groups and redraws the statusline.
-"nmap <leader>ar :AirlineRefresh<CR>
 
 " Always be 'very magic'
 nnoremap / /\v
