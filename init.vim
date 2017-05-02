@@ -291,50 +291,51 @@ endif
 " Statusline
 "
 
-" autocmd! BufRead,BufNewFile,BufWritePre call GitStats()
-
 function! GitStats() abort
-  if !get(g:, 'loaded_gitgutter', 0)
-    finish
-  endif
-  let s:non_zero_only = get(g:, 'non_zero_only', 0)
-  let s:hunk_symbols = ['+', '~', '-']
+  let b:hunk_symbols = ['+', '~', '-']
   let string = ''
   let git = fugitive#head()
   let gits = GitGutterGetHunkSummary()
   " If we're in a repo & there are changes from HEAD show them
   "   we have to make this conditionally
-  if !empty(git) && !empty(gits)
+  " Are we in a repo?
+  if git == ''    " NO, therefore show empty string aka collapse
+    return string
+  elseif git != '' && gits == [0, 0, 0]  " A repo with no changes, show empty
+                                         "  string aka collapse
+    return string
+  else    " In a repo with changes from HEAD
     for i in [0, 1, 2]
-      if (s:non_zero_only == 0 && winwidth(0) > 100) || gits[i] > 0
-        let string .= printf('%s%s ', s:hunk_symbols[i], gits[i])
-      endif
+      let string .= printf('%s%s ', b:hunk_symbols[i], gits[i])
     endfor
     return string
-  else
-    return''
+  endif
 endfunction
+" Update the Gitstats every 10 seconds
+if has ('timer')
+  let timer = timer_start(10000, GitStats),{'repeat': -1}
+endif
 
 function! GitInfo() abort
-    let git = fugitive#head()
-    if git != ''
-      return '  '.fugitive#head()
-    else
-      return ''
+  let git = fugitive#head()
+  if git != ''
+    return '  '.fugitive#head()
+  else
+    return ''
 endfunction
 
 function! Fileprefix() abort
-      let l:basename=expand('%:h')
-      ""      let l:helpfile=&filetype
-      ""      let l:helpfilename=expand('%:t')
-      ""      if l:helpfile == 'help'
-      ""        return l:helpfilename
-      if l:basename == '' || l:basename == '.'
-        return ''
-      else
-        " Make sure we show $HOME as ~.
-        return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
-      endif
+  let l:basename=expand('%:h')
+  ""      let l:helpfile=&filetype
+  ""      let l:helpfilename=expand('%:t')
+  ""      if l:helpfile == 'help'
+  ""        return l:helpfilename
+  if l:basename == '' || l:basename == '.'
+    return ''
+  else
+    " Make sure we show $HOME as ~.
+    return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+  endif
 endfunction
 
 " Statusline (requires Powerline font)
@@ -401,6 +402,9 @@ augroup FileFormats
   " Objective-C
   "   map *.h & *.m files so syntax is recognized as objc
   autocmd BufNewFile,BufRead *.m,*.h set ft=objc
+
+  " Update GitStatus
+  autocmd! BufRead,BufNewFile,BufWritePre call GitStats()
 
 augroup END
 
