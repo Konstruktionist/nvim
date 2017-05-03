@@ -281,6 +281,7 @@ if has ('gui_running')
   set guioptions-=r                 " No scrollbar right
   set guioptions-=l                 " No scrollbar left
   set guioptions-=b                 " No scrollbar bottom
+  set guioptions+=h                 " Limit horizontal scrolling
 endif
 
 "
