@@ -265,6 +265,10 @@ set wildignore+=*/tmp/*                          " Temporary directories content
 "
 
 colorscheme Kafka
+" Iterm & Terminal.app can both display italics
+" (after patching terminfo database)
+" ensure comments are in italic, even if not set in colorscheme
+highlight Comment cterm=italic gui=italic
 
 "
 " Gvim/MacVim
