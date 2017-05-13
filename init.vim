@@ -175,7 +175,6 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 set timeoutlen=3000                              "tm:    Time out on mapping after three seconds
 set ttimeoutlen=100                              "ttm:   Time out on key codes after a tenth of a second
 "set ruler                                        "ru:    Show the cursor position all the time
-set showcmd                                      "sc:    Display incomplete commands
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
@@ -191,7 +190,6 @@ set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
 set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
 set linebreak                                    "lbr    Break lines at word end
-set spelllang=en_us                              "       The common computer language version
 set clipboard+=unnamedplus
 
 "
@@ -233,12 +231,11 @@ set expandtab                                    "et:    Uses spaces instead of 
 " Hud and status info
 "
 
-set laststatus=2                                 "       Always show the statusline
 set number                                       "nu:    Numbers lines
 set relativenumber                               "rnu    Let vim calculate the vertical jumps
 set numberwidth=6                                "nuw:   Width of number column
 set cursorline                                   "cul:   highlight the current screenline
-"set noshowmode                                   "nosmd: Disable -> showing mode is done by Airline plugin
+set noshowmode                                   "nosmd: Disable -> showing mode is done by statusline
 
 "
 " Menu compilation
