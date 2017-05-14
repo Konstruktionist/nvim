@@ -91,9 +91,6 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " Surround.vim lets you add/change/remove surrounding chars and tags
 Plug 'tpope/vim-surround'
 
-" Syntax checker for many languages
-" Plug 'scrooloose/syntastic'
-
 " command-t
 Plug 'wincent/command-t', {
       \   'do': 'cd ruby/command-t && make clean && ruby extconf.rb && make'
@@ -133,7 +130,7 @@ Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
 " Plug 'rhysd/vim-gfm-syntax' " github flavored markdown
 
 " open the current Markdown buffer in Marked.app
-Plug 'itspriddle/vim-marked', { 'on': 'MarkedOpen' }
+Plug 'itspriddle/vim-marked', { 'for': 'markdown' }
 
 " Syntax highlighting for tmux
 Plug 'keith/tmux.vim'
@@ -473,28 +470,6 @@ vnoremap / /\v
 
 " Search for help with command-t plugin
 nmap <silent> <Leader>h <Plug>(CommandTHelp)
-
-"
-" NeoComplete key-mappings
-" ------------------------
-"
-inoremap <expr><C-l> neocomplete#complete_common_string()
-" Recommended key-mappings.
-" " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
 
 " Toggle Undotree
 nnoremap <leader>ut :UndotreeToggle<CR>
