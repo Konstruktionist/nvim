@@ -16,6 +16,9 @@ if &shell =~# 'fish$'
   set shell=/bin/bash
 endif
 
+" setup python paths
+let g:python_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 "- Vim-Plug installation
 
@@ -138,11 +141,6 @@ Plug 'keith/tmux.vim'
 call plug#end()
 
 
-" setup python paths
-let g:python_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
-
-
 "- Options
 set timeoutlen=3000                              "tm:    Time out on mapping after three seconds
 set ttimeoutlen=100                              "ttm:   Time out on key codes after a tenth of a second
@@ -221,12 +219,12 @@ if has ('gui_running')
   set guioptions-=r                              " No scrollbar right
   set guioptions-=l                              " No scrollbar left
   set guioptions-=b                              " No scrollbar bottom
-  set guioptions+=h                               " Limit horizontal scrolling
+  set guioptions+=h                              " Limit horizontal scrolling
+  set guicursor                                  "gcr    Change cursor dependant on mode
 endif
 
-"- Statusline
-"-- Helper functions
-
+"- Statusline (requires Powerline font for branch & lock)
+"           Some helper functions used in statusline
 "--- Get diff statistics of file in buffer
 function! GitStats() abort
   let b:hunk_symbols = ['+', '~', '-']
@@ -253,7 +251,7 @@ function! GitInfo() abort                        " Assumption: we are in a repo
   if &ft == 'help'                               " Don't show in help files aka collapse
     return ''
   elseif git != ''                               " Yes, we're in a repo
-    return '  '.fugitive#head()
+    return '  '.fugitive#head()                 " branch-symbol is U+E0A0 (in private use area)
   elseif git == ''                               " No repo, so don't show aka collapse
     return ''
   endif
@@ -295,8 +293,7 @@ let g:currentmode={
       \ 't'  : 'Terminal '
       \}
 
-"-- Building the statusline (requires Powerline font for branch & lock)
-
+"-- Building the statusline
 set statusline=                                  " Empty statusline
 
 " ------------------------------ Left-hand side ------------------------------
@@ -315,7 +312,7 @@ set statusline+=%{Fileprefix()}                  " Path to the file in the buffe
 set statusline+=%2*                              " set bold (User2)
 set statusline+=%t                               " filename
 set statusline+=%{&modified?'\ +':''}
-set statusline+=%{&readonly?'\ ':''}
+set statusline+=%{&readonly?'\ ':''}            " lock-symbol is U+E0A2 (in private use area)
 set statusline+=\ %1*                            " Switch to color User1
 set statusline+=%=                               " Separation point between left and right groups.
 
