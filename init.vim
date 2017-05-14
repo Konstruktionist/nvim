@@ -17,11 +17,8 @@ if &shell =~# 'fish$'
 endif
 
 
-"
-" Vim-Plug ---------------------------------------------------------------------
-"
+"- Vim-Plug installation
 
-" auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -30,8 +27,9 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
-" vim-plug short intro
-" --------------------
+"- Vim-Plug Manual
+" This is here, because there's no help file
+" ------------------------------------------
 "
 " https://github.com/junegunn/vim-plug
 "
@@ -65,9 +63,9 @@ call plug#begin('~/.config/nvim/plugged')
 "  Remove old/unused plugins with:
 "     :PlugClean
 "
-" intro End
-" ---------
 
+
+"- Plugins to load
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 
@@ -98,7 +96,7 @@ Plug 'tpope/vim-surround'
 
 " command-t
 Plug 'wincent/command-t', {
-      \   'do': 'cd ruby/command-t && ruby extconf.rb && make'
+      \   'do': 'cd ruby/command-t && make clean && ruby extconf.rb && make'
       \ }
 
 " terminus
@@ -131,34 +129,22 @@ Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
 
 " Providing support for editing fish scripts.
-Plug 'Konstruktionist/vim-fish'
+Plug 'Konstruktionist/vim-fish', { 'for': 'fish' }
 
 " Support for Apple's Swift language
-Plug 'keith/swift.vim'
+Plug 'keith/swift.vim', { 'for': 'swift' }
 
 " Markdown for Vim
-Plug 'gabrielelana/vim-markdown'
+Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
 " Plug 'rhysd/vim-gfm-syntax' " github flavored markdown
 
 " open the current Markdown buffer in Marked.app
-Plug 'itspriddle/vim-marked'
+Plug 'itspriddle/vim-marked', { 'on': 'MarkedOpen' }
 
 " Syntax highlighting for tmux
 Plug 'keith/tmux.vim'
 
 call plug#end()
-
-"
-" Vim-Plug End -----------------------------------------------------------------
-"
-
-"
-" Reload changes to init.vim
-"
-
-"if has('autocmd')
-"  autocmd BufWritePost $MYVIMRC source $MYVIMRC
-"endif
 
 
 " setup python paths
@@ -166,15 +152,9 @@ let g:python_host_prog = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 
-"
-" Options
-"        If relevant the short command is in the comments, if not there's no
-"        short command.
-"
-
+"- Options
 set timeoutlen=3000                              "tm:    Time out on mapping after three seconds
 set ttimeoutlen=100                              "ttm:   Time out on key codes after a tenth of a second
-"set ruler                                        "ru:    Show the cursor position all the time
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
@@ -183,7 +163,7 @@ if has ('linebreak')
   let &showbreak=' ↪︎  '                         "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
   set breakindent                               " indent wrapped lines to match start
   if exists('&breakindentopt')
-    set breakindentopt=shift:2                 "briopt: Emphasize broken lines by indenting them
+    set breakindentopt=shift:2                  "briopt: Emphasize broken lines by indenting them
   endif
 endif
 set noswapfile                                   "noswf: Do not use a swap file
@@ -192,55 +172,37 @@ set lazyredraw                                   "lz:    Will not redraw the scr
 set linebreak                                    "lbr    Break lines at word end
 set clipboard+=unnamedplus
 
-"
-" Folding
-"
-
+"- Folding
 set foldmethod=indent                            "fdm:   Fold on the indentation by default
 set foldnestmax=10                               "fdn:   Deepest fold is 10 levels
 set nofoldenable                                 "nofen: Don't fold by default
 set foldlevel=1
 set foldlevelstart=10                            "fdls:  Open most folds by default
 
-"
-" Search
-"
-
+"- Search
 set ignorecase                                   "ic:    Searches are case insensitive...
 set smartcase                                    "scs:   ... unless they contain at least one capital letter
 set gdefault                                     "gd:    Substitute all matches in a line by default
 
-"
-" Programming
-"
-
+"- Programming
 syntax on                                        "syn:   Syntax highlighting
 set showmatch                                    "sm:    Flashes matching brackets or parenthasis
 set matchtime=3                                  "mat:   How long to flash brackets
 
-"
-" Tabs
-"
-
+"- Tabs
 set tabstop=2                                    "ts:    Number of spaces that a tab renders as
 set shiftwidth=2                                 "sw:    Number of spaces to use for autoindent
 set softtabstop=2                                "sts:   Number of spaces that tabs insert
 set expandtab                                    "et:    Uses spaces instead of tab characters
 
-"
-" Hud and status info
-"
-
+"- Hud and status info
 set number                                       "nu:    Numbers lines
 set relativenumber                               "rnu    Let vim calculate the vertical jumps
 set numberwidth=6                                "nuw:   Width of number column
 set cursorline                                   "cul:   highlight the current screenline
 set noshowmode                                   "nosmd: Disable -> showing mode is done by statusline
 
-"
-" Menu compilation
-"
-
+"- Menu compilation
 set wildmode=list,full                           "wim:   List all matches and complete first match
 
 " Ignore these file-types for wildcard matching
@@ -257,46 +219,40 @@ set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 set wildignore+=*/tmp/*                          " Temporary directories content
 
-"
-" Colours
-"
-
+"- Colours
 colorscheme Kafka
 " Iterm & Terminal.app can both display italics
 " (after patching terminfo database)
 " ensure comments are in italic, even if not set in colorscheme
 highlight Comment cterm=italic gui=italic
 
-"
-" Gvim/MacVim
-"
-
+"- Gvim/MacVim
 if has ('gui_running')
-  set lines=80 columns=130          " Default window size
+  set lines=80 columns=130                       " Default window size
   set guifont=Iosevka-Light:h11
-  set guioptions-=T                 " No toolbar
-  set guioptions-=r                 " No scrollbar right
-  set guioptions-=l                 " No scrollbar left
-  set guioptions-=b                 " No scrollbar bottom
-  set guioptions+=h                 " Limit horizontal scrolling
+  set guioptions-=T                              " No toolbar
+  set guioptions-=r                              " No scrollbar right
+  set guioptions-=l                              " No scrollbar left
+  set guioptions-=b                              " No scrollbar bottom
+  set guioptions+=h                               " Limit horizontal scrolling
 endif
 
-"
-" Statusline
-"
+"- Statusline
+"-- Helper functions
 
+"--- Get diff statistics of file in buffer
 function! GitStats() abort
   let b:hunk_symbols = ['+', '~', '-']
   let string = ''
   let git = fugitive#head()
-  let gits = GitGutterGetHunkSummary()    " Changes to current file
+  let gits = GitGutterGetHunkSummary()           " Changes to current file
 
   " Are we in a repo?
-  if git == ''                           " NO, therefore show empty string aka collapse
+  if git == ''                                   " NO, therefore show empty string aka collapse
     return string
-  elseif git != '' && gits == [0, 0, 0]  " A repo with no changes, show empty string aka collapse
+  elseif git != '' && gits == [0, 0, 0]          " A repo with no changes, show empty string aka collapse
     return string
-  else                                    " In a repo with changes from HEAD
+  else                                           " In a repo with changes from HEAD
     for i in [0, 1, 2]
       let string .= printf('%s%s ', b:hunk_symbols[i], gits[i])   " Fill string with changes
     endfor
@@ -304,20 +260,22 @@ function! GitStats() abort
   endif
 endfunction
 
-function! GitInfo() abort                 " Assumption: we are in a repo
+"--- Get name of branch
+function! GitInfo() abort                        " Assumption: we are in a repo
   let git = fugitive#head()
-  if &ft == 'help'                        " Don't show in help files aka collapse
+  if &ft == 'help'                               " Don't show in help files aka collapse
     return ''
-  elseif git != ''                        " Yes, we're in a repo
+  elseif git != ''                               " Yes, we're in a repo
     return '  '.fugitive#head()
-  elseif git == ''                        " No repo, so don't show aka collapse
+  elseif git == ''                               " No repo, so don't show aka collapse
     return ''
   endif
 endfunction
 
+"--- Get the pathname to the file
 function! Fileprefix() abort
   let l:basename=expand('%:h')
-  if &ft == 'help'    " Don't show in help files aka collapse
+  if &ft == 'help'                               " Don't show in help files aka collapse
     return ''
   elseif l:basename == '' || l:basename == '.'
     return ''
@@ -327,7 +285,7 @@ function! Fileprefix() abort
   endif
 endfunction
 
-" What modes are there
+"--- What modes are there
 let g:currentmode={
       \ 'n'  : 'N ',
       \ 'no' : 'N·Operator Pending ',
@@ -338,7 +296,7 @@ let g:currentmode={
       \ 'S'  : 'S·Line ',
       \ '' : 'S·Block ',
       \ 'i'  : 'Insert ',
-      \ 'R'  : 'R ',
+      \ 'R'  : 'Replace ',
       \ 'Rv' : 'V·Replace ',
       \ 'c'  : 'Command ',
       \ 'cv' : 'Vim Ex ',
@@ -350,27 +308,29 @@ let g:currentmode={
       \ 't'  : 'Terminal '
       \}
 
-" Building the statusline (requires Powerline font for branch & lock)
+"-- Building the statusline (requires Powerline font for branch & lock)
 
-set statusline=                             " Empty statusline
+set statusline=                                  " Empty statusline
 
 " ------------------------------ Left-hand side ------------------------------
 
-set statusline+=%2*                       " set bold (User2)
-set statusline+=\ %{toupper(g:currentmode[mode()])}%*\ │\  " Current mode
+set statusline+=%2*                              " set bold (User2)
 
-" Buffer number, don't show it for help files, followed by U2502 (BOX DRAWINGS LIGHT VERTICAL)
-set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ │\ %)   
-set statusline+=%<                          " Where to truncate line
-set statusline+=%(%{GitStats()}%)           " How many changes
-set statusline+=%(%{GitInfo()}\ │\ %)       " git branch, followed by U2502 (BOX DRAWINGS LIGHT VERTICAL)
-set statusline+=%{Fileprefix()}             " Path to the file in the buffer, as typed or relative to current directory
-set statusline+=%2*                         " set bold (User2)
-set statusline+=%t                          " filename
+" Current mode, followed by U+2502 (BOX DRAWINGS LIGHT VERTICAL)
+set statusline+=%(\ %{toupper(g:currentmode[mode()])}%*\ │\ %)
+
+" Buffer number, don't show it for help files, followed by U+2502 (BOX DRAWINGS LIGHT VERTICAL)
+set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ │\ %)
+set statusline+=%<                               " Where to truncate line
+set statusline+=%(%{GitStats()}%)                " How many changes
+set statusline+=%(%{GitInfo()}\ │\ %)            " git branch, followed by U+2502 (BOX DRAWINGS LIGHT VERTICAL)
+set statusline+=%{Fileprefix()}                  " Path to the file in the buffer, as typed or relative to current directory
+set statusline+=%2*                              " set bold (User2)
+set statusline+=%t                               " filename
 set statusline+=%{&modified?'\ +':''}
 set statusline+=%{&readonly?'\ ':''}
-set statusline+=\ %1*                       " Switch to color User1
-set statusline+=%=                          " Separation point between left and right groups.
+set statusline+=\ %1*                            " Switch to color User1
+set statusline+=%=                               " Separation point between left and right groups.
 
 " ------------------------------ Right-hand side -----------------------------
 
@@ -378,12 +338,13 @@ set statusline+=\ %{''!=#&filetype?&filetype:'none'}
 
 " If filetype encoding is utf-8 and file format is unix, don't show this as it
 " is the normal state. Only show this info if it is something unusual.
-" Attention: first pipe-like charachter is NOT a pipe char but U2502 (BOX DRAWINGS LIGHT VERTICAL)
+" Attention: first pipe-like charachter is NOT a pipe char but U+2502 (BOX DRAWINGS LIGHT VERTICAL)
 set statusline+=%(\ │%{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
       \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
+
 set statusline+=\ %*
-set statusline+=\ %2v\ ∙                       " Virtual column number.
-set statusline+=\ %3p%%\                      " Percentage through file in lines as in |CTRL-G|
+set statusline+=\ ｃ%2v\ ∙                       " Virtual column number, c is U+FF43 (FULLWIDTH LATIN SMALL LETTER C)
+set statusline+=\ %3p%%\                         " Percentage through file in lines as in |CTRL-G|
 
 " Logic for customizing the User1 highlight group is the following
 " - fg = StatusLine fg (if StatusLine colors are reverse)
@@ -393,11 +354,7 @@ hi User2  ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE     guibg=#909090  
 " Set background color to red for the + sign?
 hi User3  ctermfg=NONE  ctermbg=1   cterm=bold    guifg=NONE     guibg=#d14548   gui=bold
 
-
-"
-" File formats -----------------------------------------------------------------
-"
-
+"- File formats autocommands
 augroup FileFormats
   autocmd!
 
@@ -408,7 +365,6 @@ augroup FileFormats
   autocmd FileType gitcommit set colorcolumn=+1
   "   also colour the 51st column (for titles)
   autocmd FileType gitcommit set colorcolumn+=51
-
 
   " Markdown
   "   map *.md files so that syntax is recognized as markdown
@@ -421,7 +377,6 @@ augroup FileFormats
   autocmd BufRead,BufNewFile *.json set filetype=json
   autocmd FileType json setlocal equalprg=json_reformat
 
-
   " Objective-C
   "   map *.h & *.m files so syntax is recognized as objc
   autocmd BufNewFile,BufRead *.m,*.h set ft=objc
@@ -431,40 +386,36 @@ augroup FileFormats
 
   " Reload changes to init.vim
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
-
 augroup END
 
 
-"
-" Plugin settings --------------------------------------------------------------
-"
+"- Plugin settings
 
-"
 "  gitgutter
-"
-
 let g:gitgutter_override_sign_column_highlight=0
 let g:gitgutter_eager=0
 let g:gitgutter_sign_column_always=1
 let g:gitgutter_sign_removed='-'
 let g:gitgutter_sign_modified_removed='±'
 
-"
 " Ultisnips
-"
-
 let g:UltiSnipsExpandTrigger="<tab>"
 
-"
 " Activate deoplete
-"
-
 let g:deoplete#enable_at_startup = 1
 
+" Gitv
+let g:Gitv_OpenHorizontal=1
 
-"
-" Commands ---------------------------------------------------------------------
-"
+
+" command-t
+if &term =~# 'screen' || &term =~# 'tmux' || &term =~# 'xterm'
+  let g:CommandTCancelMap=['<ESC>', '<C-c>']
+endif
+
+let g:CommandTFileScanner = 'git'
+
+"- Commands
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -503,9 +454,12 @@ endfun
 
 command! TrimWhitespace call TrimWhitespace()
 
-"
-" Key-mappings -----------------------------------------------------------------
-"
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+endif
+
+"- Key-mappings
 
 " Space is easier than backslash
 let g:mapleader = "\<Space>"
@@ -513,8 +467,12 @@ let g:mapleader = "\<Space>"
 " Escape is hard to reach
 inoremap jj <esc>
 
-" Shortcut to rapidly toggle set list
+" Toggle set list
 nmap <leader>l :set list!<CR>
+
+" Toggle folds
+nnoremap <silent> <leader><Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <leader><Space> zf
 
 " open .vimrc in a new tab
 nmap <leader>v :tabedit $MYVIMRC<CR>
@@ -528,6 +486,7 @@ vnoremap / /\v
 
 " Search for help with command-t plugin
 nmap <silent> <Leader>h <Plug>(CommandTHelp)
+
 "
 " NeoComplete key-mappings
 " ------------------------
@@ -552,6 +511,9 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 " Toggle Undotree
 nnoremap <leader>ut :UndotreeToggle<CR>
+
+" Toggle MarkedOpen
+nnoremap <leader>mo :MarkedOpen<CR>
 
 " Tip from http://www.catonmat.net/blog/sudo-vim/
 " save read-only files
@@ -578,4 +540,3 @@ function! s:align()
   endif
 endfunction
 
-" Key-mappings End <---
