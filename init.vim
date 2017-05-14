@@ -103,12 +103,6 @@ Plug 'wincent/command-t', {
 " vim terminal integration, change cursor shape, bracketed paste mode, etc
 Plug 'wincent/terminus'
 
-" A code-completion engine for Vim
-Plug 'Shougo/neocomplete.vim'
-
-" Speeds up folding
-"Plug 'Konfekt/FastFold'
-
 " Ultisnips aims to provide support for textual snippets, similar to TextMate
 " or other Vim plugins. Activate by typing some text and hitting <tab>.
 Plug 'sirver/ultisnips'
@@ -173,11 +167,7 @@ set linebreak                                    "lbr    Break lines at word end
 set clipboard+=unnamedplus
 
 "- Folding
-set foldmethod=indent                            "fdm:   Fold on the indentation by default
 set foldnestmax=10                               "fdn:   Deepest fold is 10 levels
-set nofoldenable                                 "nofen: Don't fold by default
-set foldlevel=1
-set foldlevelstart=10                            "fdls:  Open most folds by default
 
 "- Search
 set ignorecase                                   "ic:    Searches are case insensitive...
@@ -400,9 +390,6 @@ let g:gitgutter_sign_modified_removed='±'
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
-
-" Activate deoplete
-let g:deoplete#enable_at_startup = 1
 
 " Gitv
 let g:Gitv_OpenHorizontal=1
