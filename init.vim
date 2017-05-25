@@ -66,7 +66,19 @@ call plug#begin('~/.config/nvim/plugged')
 "  Remove old/unused plugins with:
 "     :PlugClean
 "
-
+"
+"   Plug options
+"
+"   Option                Description
+"   ------                -----------
+"   branch/tag/commit	    Branch/tag/commit of the repository to use
+"   rtp	                  Subdirectory that contains Vim plugin
+"   dir	                  Custom directory for the plugin
+"   as	                  Use different name for the plugin
+"   do	                  Post-update hook (string or funcref)
+"   on	                  On-demand loading: Commands or <Plug>-mappings
+"   for	                  On-demand loading: File types
+"   frozen	              Do not update unless explicitly specified
 
 "- Plugins to load
 " enable repeating supported plugin maps with "."
@@ -159,7 +171,7 @@ set noswapfile                                   "noswf: Do not use a swap file
 set cmdwinheight=20                              "cwh:   Height of command window
 set lazyredraw                                   "lz:    Will not redraw the screen while running macros (goes faster)
 set linebreak                                    "lbr    Break lines at word end
-set clipboard+=unnamedplus
+set clipboard+=unnamedplus                       "       Always use system clipboard
 
 "- Folding
 set foldnestmax=10                               "fdn:   Deepest fold is 10 levels
@@ -273,24 +285,24 @@ endfunction
 "--- What modes are there
 let g:currentmode={
       \ 'n'  : 'N ',
-      \ 'no' : 'N·Operator Pending ',
-      \ 'v'  : 'Visual ',
-      \ 'V'  : 'V·Line ',
-      \ '' : 'V·Block ',
-      \ 's'  : 'Select ',
-      \ 'S'  : 'S·Line ',
-      \ '' : 'S·Block ',
-      \ 'i'  : 'Insert ',
-      \ 'R'  : 'Replace ',
-      \ 'Rv' : 'V·Replace ',
-      \ 'c'  : 'Command ',
-      \ 'cv' : 'Vim Ex ',
-      \ 'ce' : 'Ex ',
-      \ 'r'  : 'Prompt ',
-      \ 'rm' : 'More ',
-      \ 'r?' : 'Confirm ',
-      \ '!'  : 'Shell ',
-      \ 't'  : 'Terminal '
+      \ 'no' : 'N·OPERATOR PENDING ',
+      \ 'v'  : 'VISUAL ',
+      \ 'V'  : 'V·LINE ',
+      \ '' : 'V·BLOCK ',
+      \ 's'  : 'SELECT ',
+      \ 'S'  : 'S·LINE ',
+      \ '' : 'S·BLOCK ',
+      \ 'i'  : 'INSERT ',
+      \ 'R'  : 'REPLACE ',
+      \ 'Rv' : 'V·REPLACE ',
+      \ 'c'  : 'COMMAND ',
+      \ 'cv' : 'VIM EX ',
+      \ 'ce' : 'EX ',
+      \ 'r'  : 'PROMPT ',
+      \ 'rm' : 'MORE ',
+      \ 'r?' : 'CONFIRM ',
+      \ '!'  : 'SHELL ',
+      \ 't'  : 'TERMINAL '
       \}
 
 "-- Building the statusline
@@ -301,7 +313,7 @@ set statusline=                                  " Empty statusline
 set statusline+=%2*                              " set bold (User2)
 
 " Current mode, followed by U+2502 (BOX DRAWINGS LIGHT VERTICAL)
-set statusline+=%(\ %{toupper(g:currentmode[mode()])}%*\ │\ %)
+set statusline+=%(\ %{(g:currentmode[mode()])}%*\ │\ %)
 
 " Buffer number, don't show it for help files, followed by U+2502 (BOX DRAWINGS LIGHT VERTICAL)
 set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ │\ %)
@@ -335,7 +347,7 @@ set statusline+=\ %3p%%\                         " Percentage through file in li
 " - bg = StatusLineNC bg (if StatusLineNC colors are reverse)
 hi User1  ctermfg=8     ctermbg=7                 guifg=#909090  guibg=#444444
 hi User2  ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE     guibg=#909090   gui=bold
-" Set background color to red for the + sign?
+" Todo: Set background color to red for the + sign?
 hi User3  ctermfg=NONE  ctermbg=1   cterm=bold    guifg=NONE     guibg=#d14548   gui=bold
 
 "- File formats autocommands
@@ -434,11 +446,6 @@ function! TrimWhitespace()
 endfun
 
 command! TrimWhitespace call TrimWhitespace()
-
-" yank to clipboard
-if has("clipboard")
-  set clipboard=unnamed " copy to the system clipboard
-endif
 
 "- Key-mappings
 
