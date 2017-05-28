@@ -154,6 +154,7 @@ Plug 'keith/tmux.vim'
 
 "-- Colorschemes
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'reedes/vim-colors-pencil'
 
 call plug#end()
 
