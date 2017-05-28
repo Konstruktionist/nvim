@@ -81,6 +81,9 @@ call plug#begin('~/.config/nvim/plugged')
 "   frozen	              Do not update unless explicitly specified
 
 "- Plugins to load
+
+"-- Extending vim
+
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 
@@ -90,6 +93,9 @@ Plug 'tpope/vim-fugitive'
 " Unimpaired.vim provides shortcuts for various paired activities
 Plug 'tpope/vim-unimpaired'
 
+" Surround.vim lets you add/change/remove surrounding chars and tags
+Plug 'tpope/vim-surround'
+
 " Nice comment plugin
 Plug 'tomtom/tcomment_vim'
 
@@ -97,14 +103,8 @@ Plug 'tomtom/tcomment_vim'
 " stages/reverts hunks. Use [c and ]c to navigate changes.
 Plug 'airblade/vim-gitgutter'
 
-" Gundo.vim is Vim plugin to visualize your Vim undo tree.
-"Plug 'sjl/gundo.vim'
-
 " UndoTree
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-
-" Surround.vim lets you add/change/remove surrounding chars and tags
-Plug 'tpope/vim-surround'
 
 " command-t
 Plug 'wincent/command-t', {
@@ -134,6 +134,11 @@ Plug 'godlygeek/tabular'
 "  Dependancy: A working fugitive installation
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
 
+" open the current Markdown buffer in Marked.app
+Plug 'itspriddle/vim-marked', { 'for': 'markdown' }
+
+"-- Languages
+
 " Providing support for editing fish scripts.
 Plug 'Konstruktionist/vim-fish', { 'for': 'fish' }
 
@@ -144,11 +149,11 @@ Plug 'keith/swift.vim', { 'for': 'swift' }
 Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
 " Plug 'rhysd/vim-gfm-syntax' " github flavored markdown
 
-" open the current Markdown buffer in Marked.app
-Plug 'itspriddle/vim-marked', { 'for': 'markdown' }
-
 " Syntax highlighting for tmux
 Plug 'keith/tmux.vim'
+
+"-- Colorschemes
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -159,7 +164,7 @@ set ttimeoutlen=100                              "ttm:   Time out on key codes a
 set hidden                                       "hid:   Don't care about closing modified buffers
 set winwidth=84                                  "       The window width with multiple windows
 set nowrap                                       "       Don't wrap lines (mapped leader-w to toggle)
-set listchars=tab:▸\ ,eol:¬,extends:»,trail:※,nbsp:⎵
+set listchars=tab:▸\ ,eol:¬,extends:»,precedes:«,trail:※,nbsp:⎵
 if has ('linebreak')
   let &showbreak=' ↪︎  '                         "sbr:   Show Unicode 21AA (RIGHTWARDS ARROW WITH HOOK) surrounded by spaces when soft-wrapping lines
   set breakindent                               " indent wrapped lines to match start
