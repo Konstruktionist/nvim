@@ -241,36 +241,38 @@ if has ('gui_running')
   set guicursor                                  "gcr    Change cursor dependant on mode
 endif
 
-"- Statusline (requires Powerline font for branch & lock)
+"- Statusline (requires Powerline enabled font for branch & lock)
 "           Some helper functions used in statusline
 "--- Get diff statistics of file in buffer
 function! GitStats() abort
+  " These are variables only for the current buffer
   let b:hunk_symbols = ['+', '~', '-']
-  let string = ''
-  let git = fugitive#head()
-  let gits = GitGutterGetHunkSummary()           " Changes to current file
+  let b:string = ''
+  let b:git = fugitive#head()
+  let b:gits = GitGutterGetHunkSummary()         " Changes to current file
 
   " Are we in a repo?
-  if git == ''                                   " NO, therefore show empty string aka collapse
-    return string
-  elseif git != '' && gits == [0, 0, 0]          " A repo with no changes, show empty string aka collapse
-    return string
+  if b:git == ''                                 " Not a repo,therefore show empty string aka collapse
+    return b:string
+  elseif b:git != '' && b:gits == [0, 0, 0]      " A repo with no changes, show empty string aka collapse
+    return b:string
   else                                           " In a repo with changes from HEAD
     for i in [0, 1, 2]
-      let string .= printf('%s%s ', b:hunk_symbols[i], gits[i])   " Fill string with changes
+      let b:string .= printf('%s%s ', b:hunk_symbols[i], b:gits[i])   " Fill string with changes
     endfor
-    return string
+    return b:string
   endif
 endfunction
 
 "--- Get name of branch
 function! GitInfo() abort                        " Assumption: we are in a repo
-  let git = fugitive#head()
   if &ft == 'help'                               " Don't show in help files aka collapse
     return ''
-  elseif git != ''                               " Yes, we're in a repo
-    return '  '.fugitive#head()                 " branch-symbol is U+E0A0 (in private use area)
-  elseif git == ''                               " No repo, so don't show aka collapse
+  elseif b:git != '' && b:string == ''           " Yes, we're in a repo & file has no changes
+    return ' '.fugitive#head()                  " branch-symbol is U+E0A0 (in private use area)
+  elseif b:git != '' && b:string != ''           " Yes, in a repo, but file has changes, add space before branch symbol
+    return '  '.fugitive#head()
+  elseif b:git == ''                             " No repo, so don't show aka collapse
     return ''
   endif
 endfunction
@@ -280,7 +282,7 @@ function! Fileprefix() abort
   let l:basename=expand('%:h')
   if &ft == 'help'                               " Don't show in help files aka collapse
     return ''
-  elseif l:basename == '' || l:basename == '.'
+  elseif l:basename == '' || l:basename == '.'   " If empty or current working directory don't show path
     return ''
   else
     " Make sure we show $HOME as ~.
@@ -290,28 +292,29 @@ endfunction
 
 "--- What modes are there
 let g:currentmode={
-      \ 'n'  : 'N ',
-      \ 'no' : 'N·OPERATOR PENDING ',
-      \ 'v'  : 'VISUAL ',
-      \ 'V'  : 'V·LINE ',
-      \ '' : 'V·BLOCK ',
-      \ 's'  : 'SELECT ',
-      \ 'S'  : 'S·LINE ',
-      \ '' : 'S·BLOCK ',
-      \ 'i'  : 'INSERT ',
-      \ 'R'  : 'REPLACE ',
-      \ 'Rv' : 'V·REPLACE ',
-      \ 'c'  : 'COMMAND ',
-      \ 'cv' : 'VIM EX ',
-      \ 'ce' : 'EX ',
-      \ 'r'  : 'PROMPT ',
-      \ 'rm' : 'MORE ',
-      \ 'r?' : 'CONFIRM ',
-      \ '!'  : 'SHELL ',
-      \ 't'  : 'TERMINAL '
+      \ 'n'  : 'N',
+      \ 'no' : 'N·OPERATOR PENDING',
+      \ 'v'  : 'VISUAL',
+      \ 'V'  : 'V·LINE',
+      \ '' : 'V·BLOCK',
+      \ 's'  : 'SELECT',
+      \ 'S'  : 'S·LINE',
+      \ '' : 'S·BLOCK',
+      \ 'i'  : 'INSERT',
+      \ 'R'  : 'REPLACE',
+      \ 'Rv' : 'V·REPLACE',
+      \ 'c'  : 'COMMAND',
+      \ 'cv' : 'VIM EX',
+      \ 'ce' : 'EX',
+      \ 'r'  : 'PROMPT',
+      \ 'rm' : 'MORE',
+      \ 'r?' : 'CONFIRM',
+      \ '!'  : 'SHELL',
+      \ 't'  : 'TERMINAL'
       \}
 
 "-- Building the statusline
+
 set statusline=                                  " Empty statusline
 
 " ------------------------------ Left-hand side ------------------------------
@@ -331,11 +334,11 @@ set statusline+=%2*                              " set bold (User2)
 set statusline+=%t                               " filename
 set statusline+=%{&modified?'\ +':''}
 set statusline+=%{&readonly?'\ ':''}            " lock-symbol is U+E0A2 (in private use area)
-set statusline+=\ %1*                            " Switch to color User1
 set statusline+=%=                               " Separation point between left and right groups.
 
 " ------------------------------ Right-hand side -----------------------------
 
+set statusline+=\ %1*                            " Switch to color User1
 set statusline+=\ %{''!=#&filetype?&filetype:'none'}
 
 " If filetype encoding is utf-8 and file format is unix, don't show this as it
@@ -344,7 +347,7 @@ set statusline+=\ %{''!=#&filetype?&filetype:'none'}
 set statusline+=%(\ │%{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
       \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
 
-set statusline+=\ %*
+set statusline+=\ %*                             " reset color to colorscheme StatusLine
 set statusline+=\ ｃ%2v\ ∙                       " Virtual column number, c is U+FF43 (FULLWIDTH LATIN SMALL LETTER C)
 set statusline+=\ %3p%%\                         " Percentage through file in lines as in |CTRL-G|
 
@@ -352,7 +355,7 @@ set statusline+=\ %3p%%\                         " Percentage through file in li
 " - fg = StatusLine fg (if StatusLine colors are reverse)
 " - bg = StatusLineNC bg (if StatusLineNC colors are reverse)
 hi User1  ctermfg=8     ctermbg=7                 guifg=#909090  guibg=#444444
-hi User2  ctermfg=NONE  ctermbg=8   cterm=bold    guifg=NONE     guibg=#909090   gui=bold
+hi User2  ctermfg=NONE  ctermbg=7   cterm=bold    guifg=NONE     guibg=#909090   gui=bold
 " Todo: Set background color to red for the + sign?
 hi User3  ctermfg=NONE  ctermbg=1   cterm=bold    guifg=NONE     guibg=#d14548   gui=bold
 
